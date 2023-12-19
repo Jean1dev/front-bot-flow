@@ -64,7 +64,8 @@ const BotFlowView = () => {
             setNodes([{
                 id, type: 'start', position: { x: 0, y: yVal }, data: {
                     label: data.name,
-                    phone: data.phone
+                    phone: data.phone,
+                    action: data.action
                 }
             }])
             setTitle('Adicionar nova acao')
@@ -73,7 +74,7 @@ const BotFlowView = () => {
 
         }
 
-        setNodes([...nodes, { id, position: { x: 0, y: yVal }, data: { label: data.name } }])
+        setNodes([...nodes, { id, position: { x: 0, y: yVal }, data: { label: data.name, action: data.action } }])
 
     }, [nodes, flowFlux])
 
