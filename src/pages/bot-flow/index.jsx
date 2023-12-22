@@ -1,6 +1,6 @@
 import React, { useCallback, useState } from "react"
 
-import PlusIcon from '@untitled-ui/icons-react/build/esm/Plus';
+import { Plus as PlusIcon, Upload01 } from '@untitled-ui/icons-react/build/esm';
 import {
     Box,
     Container,
@@ -8,8 +8,10 @@ import {
     Typography,
     Button,
     SvgIcon,
-    Card
+    Card,
 } from '@mui/material'
+
+import Grid from '@mui/material/Unstable_Grid2';
 
 import { Seo } from "src/components/seo";
 import ReactFlow, {
@@ -22,8 +24,11 @@ import ReactFlow, {
 } from 'reactflow';
 
 import { AddNodeDialog } from "src/components/flow-builder/add-node-dialog";
-import 'reactflow/dist/style.css';
+
 import startNode from "../../components/flow-builder/start-node";
+import { LinkNumberDialog } from "../../components/flow-builder/link-number-dialog";
+
+import 'reactflow/dist/style.css';
 
 const FLOW_STEP_START = 'start'
 const FLOW_STEP_ONGOING = 'ongoing'
@@ -45,6 +50,7 @@ const nodeTypes = {
 
 const BotFlowView = () => {
     const [open, setOpen] = useState(false)
+    const [openModalLinkNumber, setOpenModalLinkNumber] = useState(false)
     const [title, setTitle] = useState('Criar novo Flow')
     const [flowFlux, setFlowFlux] = useState(FLOW_STEP_START)
 
@@ -59,7 +65,7 @@ const BotFlowView = () => {
     const addNode = useCallback((data) => {
         const yVal = nodes.length === 0 ? 0 : 100 * nodes.length
         const id = `node-${nodes.length}`
-        console.log(data)
+
         if (flowFlux === FLOW_STEP_START) {
             setNodes([{
                 id, type: 'start', position: { x: 0, y: yVal }, data: {
@@ -78,11 +84,53 @@ const BotFlowView = () => {
 
     }, [nodes, flowFlux])
 
+    const importFile = useCallback(() => {
+        const input = document.createElement('input');
+        input.type = 'file';
+        input.accept = '.json';
+        input.onchange = (event) => {
+            const arquivoSelecionado = event.target.files[0];
+            const leitor = new FileReader();
+
+            leitor.onload = (eventoLeitura) => {
+                const conteudoArquivo = eventoLeitura.target.result;
+                const objetoJson = JSON.parse(conteudoArquivo);
+
+                if (!objetoJson.nodes) {
+                    alert('Arquivo no formato invalido')
+                    return
+                }
+                
+                setNodes(objetoJson.nodes)
+                setEdges(objetoJson.edges)
+                setTitle('Adicionar nova acao')
+                setFlowFlux(FLOW_STEP_ONGOING)
+            };
+
+            leitor.readAsText(arquivoSelecionado);
+        };
+
+        input.click();
+    }, [])
+
     const testar = () => {
-        console.log('nodes')
-        console.log(nodes)
-        console.log('edges')
-        console.log(edges)
+        const content = {
+            key: 'teste',
+            edges,
+            nodes
+        }
+
+        const blob = new Blob([JSON.stringify(content)], {
+            type: 'application/json'
+        })
+
+        const url = URL.createObjectURL(blob)
+        const link = document.createElement('a')
+        link.href = url
+        link.download = 'flow.json'
+        link.click()
+        URL.revokeObjectURL(url)
+        setOpenModalLinkNumber(true)
     }
 
     return (
@@ -107,29 +155,57 @@ const BotFlowView = () => {
                                         Whatsapp Bot Flow
                                     </Typography>
                                 </div>
-                                <div>
-                                    {
-                                        nodes.length > 0 && (
+                                <Grid xs={12}>
+                                    <Stack
+                                        direction="row"
+                                        justifyContent="space-between"
+                                        spacing={4}
+                                    >
+                                        <Stack
+                                            alignItems="center"
+                                            direction="row"
+                                            spacing={2}
+                                        >
+
+                                            {
+                                                nodes.length > 0 && (
+                                                    <Button
+                                                        onClick={testar}
+                                                        variant="outlined"
+                                                    >
+                                                        Testar
+                                                    </Button>
+                                                )
+                                            }
+
                                             <Button
-                                                onClick={testar}
+                                                onClick={importFile}
+                                                startIcon={(
+                                                    <SvgIcon>
+                                                        <Upload01 />
+                                                    </SvgIcon>
+                                                )}
                                                 variant="outlined"
                                             >
-                                                Testar
+                                                Importar
                                             </Button>
-                                        )
-                                    }
-                                    <Button
-                                        onClick={() => setOpen(true)}
-                                        startIcon={(
-                                            <SvgIcon>
-                                                <PlusIcon />
-                                            </SvgIcon>
-                                        )}
-                                        variant="contained"
-                                    >
-                                        {title}
-                                    </Button>
-                                </div>
+
+                                            <Button
+                                                onClick={() => setOpen(true)}
+                                                startIcon={(
+                                                    <SvgIcon>
+                                                        <PlusIcon />
+                                                    </SvgIcon>
+                                                )}
+                                                variant="contained"
+                                            >
+                                                {title}
+                                            </Button>
+                                        </Stack>
+                                    </Stack>
+                                </Grid>
+
+
                             </Stack>
                         </Box>
                         <Card>
@@ -161,6 +237,10 @@ const BotFlowView = () => {
                 open={open}
                 onConfirm={addNode}
                 phase={flowFlux}
+            />
+            <LinkNumberDialog
+                onClose={() => setOpenModalLinkNumber(false)}
+                open={openModalLinkNumber}
             />
         </>
     )

@@ -16,6 +16,8 @@ import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import { useState } from 'react';
 import SimpleMessageActionType from './simple-message-action-type';
+import MessageWithImageActionType from './message-with-image-action-type';
+import MessageWithButtonsActionType from './message-with-buttons-action-type';
 
 const ACTIONS_TYPES = [
     {
@@ -27,6 +29,11 @@ const ACTIONS_TYPES = [
         type: 'ENVIAR_IMAGEM',
         label: 'Enviar imagem',
         info: 'Envia uma mensagem com uma imagem em anexo'
+    },
+    {
+        type: 'ENVIAR_MENSAGEM_COM_BOTOES',
+        label: 'Enviar Mensagens com botoes',
+        info: 'Envia uma mensagem com botoes clicaveis'
     },
 ]
 
@@ -137,6 +144,18 @@ export const AddNodeDialog = (props) => {
                     {
                         state.type === ACTIONS_TYPES[0].type && (
                             <SimpleMessageActionType onChange={setSimpleMessage} />
+                        )
+                    }
+
+                    {
+                        state.type === ACTIONS_TYPES[1].type && (
+                            <MessageWithImageActionType onChange={setSimpleMessage} />
+                        )
+                    }
+
+                    {
+                        state.type === ACTIONS_TYPES[2].type && (
+                            <MessageWithButtonsActionType onChange={setSimpleMessage} />
                         )
                     }
 
