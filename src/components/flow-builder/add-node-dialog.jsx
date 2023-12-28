@@ -62,7 +62,8 @@ export const AddNodeDialog = (props) => {
         });
     };
 
-    const setSimpleMessage = (data) => {
+    const setAction = (data) => {
+        console.log('setAction', data)
         setState({ ...state, action: data })
     }
 
@@ -143,19 +144,19 @@ export const AddNodeDialog = (props) => {
 
                     {
                         state.type === ACTIONS_TYPES[0].type && (
-                            <SimpleMessageActionType onChange={setSimpleMessage} />
+                            <SimpleMessageActionType onChange={setAction} />
                         )
                     }
 
                     {
                         state.type === ACTIONS_TYPES[1].type && (
-                            <MessageWithImageActionType onChange={setSimpleMessage} />
+                            <MessageWithImageActionType onChange={setAction} />
                         )
                     }
 
                     {
                         state.type === ACTIONS_TYPES[2].type && (
-                            <MessageWithButtonsActionType onChange={setSimpleMessage} />
+                            <MessageWithButtonsActionType onChange={setAction} />
                         )
                     }
 

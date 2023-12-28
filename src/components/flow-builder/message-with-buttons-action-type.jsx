@@ -17,7 +17,7 @@ import {
     Tooltip,
     IconButton
 } from '@mui/material';
-import { useCallback, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 
 const options = [
     {
@@ -29,7 +29,7 @@ const options = [
         type: "urlButton"
     },
     {
-        label: "Bota de ligacao para contato",
+        label: "Botao de ligacao para contato",
         type: "callButton"
     }
 ]
@@ -37,17 +37,23 @@ const options = [
 const MessageWithButtonsActionType = ({ onChange }) => {
     const [state, setState] = useState([])
     const [messageTitle, setMessageTitle] = useState('')
+    const [footerTitle, setFooterTitle] = useState('')
     const [formType, setFormType] = useState(options[0].type)
     const [valueDynamicForm, setValueDynamicForm] = useState('')
 
-    const applyChanges = () => {
+    useEffect(() => {
         onChange({
-            type: 'ENVIAR_MENSAGEM_COM_BOTOES',
+            type: 'ENVIAR_MESSAGE_BUTTON',
             data: {
-                message: val
+                actionsButton: state.map(it => ({
+                    type: it.label,
+                    response: it.val
+                })),
+                titleMessage: messageTitle,
+                footerMessage: footerTitle
             }
         })
-    }
+    }, [state, messageTitle, footerTitle])
 
     const handleRemove = useCallback((opt) => {
         setState((prevFiles) => {
@@ -56,6 +62,8 @@ const MessageWithButtonsActionType = ({ onChange }) => {
     }, []);
 
     const addOption = useCallback(() => {
+        // Permitir somente ate 4 buttons
+
         setState((prevValues) => {
             return [...prevValues, {
                 label: formType,
@@ -63,6 +71,7 @@ const MessageWithButtonsActionType = ({ onChange }) => {
             }]
         })
         setValueDynamicForm('')
+
     }, [formType, valueDynamicForm])
 
     const dinamicForm = useMemo(() => {
@@ -86,7 +95,7 @@ const MessageWithButtonsActionType = ({ onChange }) => {
                 return (
                     <TextField
                         fullWidth
-                        label="Link"                        
+                        label="Link"
                         required
                         onChange={(e) => {
                             const val = e.target.value
@@ -143,6 +152,17 @@ const MessageWithButtonsActionType = ({ onChange }) => {
                     <Divider />
                     <TextField
                         fullWidth
+                        label="Rodape da mensagem da mensagem (Opcional)"
+                        name="message"
+                        onChange={(e) => {
+                            const val = e.target.value
+                            setFooterTitle(val)
+                        }}
+                        value={footerTitle}
+                    />
+                    <Divider />
+                    <TextField
+                        fullWidth
                         name="option"
                         onChange={(event) => setFormType(event.target.value)}
                         select
@@ -150,9 +170,9 @@ const MessageWithButtonsActionType = ({ onChange }) => {
                         value={formType}
                         variant="outlined"
                     >
-                        {options.map((option) => (
+                        {options.map((option, index) => (
                             <option
-                                key={option}
+                                key={index}
                                 value={option.type}
                             >
                                 {option.label}

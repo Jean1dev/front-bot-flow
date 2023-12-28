@@ -16,9 +16,11 @@ import {
 } from '@mui/material';
 import Upload01Icon from '@untitled-ui/icons-react/build/esm/Upload01';
 import XIcon from '@untitled-ui/icons-react/build/esm/X';
-import { useCallback, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { FileIcon } from '../file-icon';
 import { useDropzone } from 'react-dropzone';
+import { toast } from 'react-hot-toast';
+import axios from 'axios';
 
 /* eslint-disable no-restricted-properties */
 export const bytesToSize = (bytes, decimals = 2) => {
@@ -41,6 +43,13 @@ const MessageWithImageActionType = ({ onChange }) => {
     })
     const [files, setFiles] = useState([]);
 
+    useEffect(() => {
+        onChange({
+            type: 'ENVIAR_IMAGEM',
+            data: state
+        })
+    }, [state])
+
     const handleDrop = useCallback((newFiles) => {
         setFiles((prevFiles) => {
             return [...prevFiles, ...newFiles];
@@ -49,6 +58,7 @@ const MessageWithImageActionType = ({ onChange }) => {
 
     const handleRemove = useCallback((file) => {
         setFiles((prevFiles) => {
+            console.log(file)
             return prevFiles.filter((_file) => _file.path !== file.path);
         });
     }, []);
@@ -58,8 +68,32 @@ const MessageWithImageActionType = ({ onChange }) => {
     }, []);
 
     const handleUpload = useCallback(() => {
+        toast.loading('Iniciando o upload por favor aguarde um momento', { duration: 4000 })
+        const form = new FormData()
+        form.append('file', files[0])
 
-    }, [state, files])
+        const options = {
+            method: 'POST',
+            url: 'https://storage-manager-svc.herokuapp.com/v1/s3',
+            params: { bucket: 'binnoroteirizacao' },
+            headers: {
+                'Content-Type': 'multipart/form-data',
+                'content-type': 'multipart/form-data; boundary=---011000010111000001101001'
+            },
+            data: form
+        };
+
+        axios.request(options)
+            .then(({ data }) => {
+                toast.success('Upload realizado')
+                setState((prevState) => {
+                    return { ...prevState, url: data }
+                })
+            })
+            .catch(() => {
+                toast.error('Ocorreu um erro ao fazer o upload')
+            })
+    }, [files])
 
     const { getRootProps, getInputProps, isDragActive } = useDropzone({
         accept: { 'image/*': [] },
@@ -76,10 +110,7 @@ const MessageWithImageActionType = ({ onChange }) => {
                 onChange={(e) => {
                     const val = e.target.value
                     setState({ ...state, desc: val })
-                    onChange({
-                        type: 'ENVIAR_IMAGEM',
-                        data: state
-                    })
+
                 }}
                 value={state.desc}
             />
