@@ -27,8 +27,11 @@ import { AddNodeDialog } from "src/components/flow-builder/add-node-dialog";
 
 import startNode from "../../components/flow-builder/start-node";
 import { LinkNumberDialog } from "../../components/flow-builder/link-number-dialog";
+import axios from 'axios';
 
 import 'reactflow/dist/style.css';
+import { BaseUrlApiEngine } from "../../constants";
+import { toast } from 'react-hot-toast';
 
 const FLOW_STEP_START = 'start'
 const FLOW_STEP_ONGOING = 'ongoing'
@@ -61,6 +64,19 @@ const BotFlowView = () => {
         (params) => setEdges((eds) => addEdge(params, eds)),
         [setEdges],
     );
+
+    const confirmLinkNumber = useCallback((codeConfirmation) => {
+        axios.post(`${BaseUrlApiEngine}/poc/whats/engine-run`, {
+            key: codeConfirmation,
+            edges,
+            nodes
+        }).then(() => {
+            toast.success('Flow adicionado e ja esta ativo')
+        }).catch((e) => {
+            toast.error('Ocorreu um erro ao adicionar esse Flow')
+            console.log(e.message)
+        })
+    }, [nodes, edges])
 
     const addNode = useCallback((data) => {
         const yVal = nodes.length === 0 ? 0 : 100 * nodes.length
@@ -100,7 +116,7 @@ const BotFlowView = () => {
                     alert('Arquivo no formato invalido')
                     return
                 }
-                
+
                 setNodes(objetoJson.nodes)
                 setEdges(objetoJson.edges)
                 setTitle('Adicionar nova acao')
@@ -241,6 +257,7 @@ const BotFlowView = () => {
             <LinkNumberDialog
                 onClose={() => setOpenModalLinkNumber(false)}
                 open={openModalLinkNumber}
+                onSubmit={confirmLinkNumber}
             />
         </>
     )
