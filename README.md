@@ -1,4 +1,4 @@
-# Open Cloud First ERP - Front-end
-sistema de gestão para gerir a loja do meu pai
+# Front-End Bot Flow
+sistema de gestão de fluxos no whatsapp
 
-https://open-cloud-erp.netlify.app/app/dashboard
+https://poc-flow-bot-builder.netlify.app/

@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import {
     CircularProgress,
     Stack,
@@ -7,23 +7,46 @@ import {
     Dialog
 } from '@mui/material';
 import axios from 'axios';
+import { BaseUrlApiEngine } from '../../constants';
+
+function generateRandomString(length) {
+    var chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
+    var result = "";
+    for (var i = 0; i < length; i++) {
+        result += chars.charAt(Math.floor(Math.random() * chars.length));
+    }
+
+    return result;
+}
 
 export const LinkNumberDialog = (props) => {
     const {
         onClose,
-        open = false
+        open = false,
+        onSubmit = () => {}
     } = props
 
     const [rawHtml, setRawHtml] = useState(null)
     const [loading, setLoading] = useState(true)
 
+    const code = useMemo(() => {
+        const generated = generateRandomString(6)
+        console.log('Generated code ', generated)
+        return generated
+    }, [])
+
     useEffect(() => {
-        axios.post('https://bot-builder-engine-2242d70bd3b3.herokuapp.com/poc/whats/generate-code')
+        axios.post(`${BaseUrlApiEngine}/poc/whats/generate-code`, { code })
             .then(({ data }) => {
                 setRawHtml(data)
                 setLoading(false)
             })
-    }, [])
+    }, [code])
+
+    const confirm = useCallback(() => {
+        onSubmit(code)
+        onClose()
+    }, [code, onSubmit])
 
     return (
         <Dialog
@@ -54,7 +77,7 @@ export const LinkNumberDialog = (props) => {
                     Cancel
                 </Button>
                 <Button
-                    onClick={onClose}
+                    onClick={confirm}
                     variant="contained"
                 >
                     Confirm
