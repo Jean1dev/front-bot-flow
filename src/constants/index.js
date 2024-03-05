@@ -1,10 +1,6 @@
-//prod
-export const BaseUrlApiEngine = 'https://bot-builder-engine-2242d70bd3b3.herokuapp.com'
-
-// local
-// export const BaseUrlApiEngine = 'http://localhost:8080'
-export const  KEYCLOAK_CLIENT_CONFIG = {
-    url: `http://localhost:8080`,
-    realm: "bot-flow",
-    clientId: "react-app"
-}
+export const BaseUrlApiEngine = import.meta.env.VITE_BASE_URL_API_ENGINE;
+export const KeycloakClientConfig = {
+    url: import.meta.env.VITE_KEYCLOAK_CLIENT_URL,
+    realm: import.meta.env.VITE_KEYCLOAK_REALM,
+    clientId: import.meta.env.VITE_KEYCLOAK_CLIENT_ID
+};

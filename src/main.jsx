@@ -6,9 +6,9 @@ import { HelmetProvider } from 'react-helmet-async';
 
 import { ReactKeycloakProvider } from "@react-keycloak/web"
 import Keycloak from 'keycloak-js'
-import {KEYCLOAK_CLIENT_CONFIG} from './constants'
+import {KeycloakClientConfig} from './constants'
 
-const keycloakClient = new Keycloak(KEYCLOAK_CLIENT_CONFIG)
+const keycloakClient = new Keycloak(KeycloakClientConfig)
 
 const initOptions = { pkceMethod: 'S256' , onLoad: 'login-required'}
 
