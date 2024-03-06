@@ -6,20 +6,28 @@ import { HelmetProvider } from 'react-helmet-async';
 
 import { ReactKeycloakProvider } from "@react-keycloak/web"
 import Keycloak from 'keycloak-js'
-import {KeycloakClientConfig} from './constants'
+import {KeycloakClientConfig, isKeycloakActived} from './constants'
 
 const keycloakClient = new Keycloak(KeycloakClientConfig)
 
 const initOptions = { pkceMethod: 'S256' , onLoad: 'login-required'}
 
-ReactDOM.createRoot(document.getElementById('root')).render(
+const renderApp = () => (
+  <React.StrictMode>
+    <HelmetProvider>
+      <BrowserRouter>
+        <App />
+      </BrowserRouter>
+    </HelmetProvider>
+  </React.StrictMode>
+);
+
+const appWithKeycloak = (
   <ReactKeycloakProvider authClient={keycloakClient} initOptions={initOptions}>
-    <React.StrictMode>
-      <HelmetProvider>
-        <BrowserRouter>
-          <App />
-        </BrowserRouter>
-      </HelmetProvider>
-    </React.StrictMode>
+    {renderApp()}
   </ReactKeycloakProvider>
-)
+);
+
+ReactDOM.createRoot(document.getElementById('root')).render(
+  isKeycloakActived === "true" ? appWithKeycloak : renderApp()
+);
