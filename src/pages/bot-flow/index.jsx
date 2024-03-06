@@ -60,6 +60,8 @@ const BotFlowView = () => {
     const [nodes, setNodes, onNodesChange] = useNodesState([]);
     const [edges, setEdges, onEdgesChange] = useEdgesState([]);
 
+    const [isFluxoSaved, setIsFluxoSaved] = useState(false);
+
     const onConnect = useCallback(
         (params) => setEdges((eds) => addEdge(params, eds)),
         [setEdges],
@@ -149,6 +151,18 @@ const BotFlowView = () => {
         setOpenModalLinkNumber(true)
     }
 
+    const saveFlow = () => {
+        setIsFluxoSaved(true);
+
+        // axios.post(`${BaseUrlApiEngine}/poc/whats/engine-run`, {
+        // }).then(() => {
+        //     toast.success('Flow salvo com sucesso')
+        // }).catch((e) => {
+        //     toast.error('Ocorreu um erro ao salvar esse Flow')
+        //     console.log(e.message)
+        // })
+    }
+
     return (
         <>
             <Seo title="Bot Flow" />
@@ -182,12 +196,23 @@ const BotFlowView = () => {
                                             direction="row"
                                             spacing={2}
                                         >
+                                            {
+                                                nodes.length > 0 && (
+                                                    <Button
+                                                        onClick={saveFlow}
+                                                        variant="outlined"
+                                                    >
+                                                        Salvar
+                                                    </Button>
+                                                )
+                                            }
 
                                             {
                                                 nodes.length > 0 && (
                                                     <Button
                                                         onClick={testar}
                                                         variant="outlined"
+                                                        disabled={!isFluxoSaved}
                                                     >
                                                         Testar
                                                     </Button>
