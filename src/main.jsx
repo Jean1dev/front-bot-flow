@@ -22,12 +22,12 @@ const renderApp = () => (
   </React.StrictMode>
 );
 
-const appWithKeycloak = (
+const appWithKeycloak = () => (
   <ReactKeycloakProvider authClient={keycloakClient} initOptions={initOptions}>
     {renderApp()}
   </ReactKeycloakProvider>
 );
 
 ReactDOM.createRoot(document.getElementById('root')).render(
-  isKeycloakActived === "true" ? appWithKeycloak : renderApp()
+  isKeycloakActived === "true" ? appWithKeycloak() : renderApp()
 );

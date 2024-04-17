@@ -181,23 +181,10 @@ export const MobileNav = (props) => {
             ))}
           </Stack>
           <Box sx={{ p: 3 }}>
-            <Typography
-              color="neutral.400"
-              variant="subtitle1"
-            >
-              Need help?
-            </Typography>
-            <Typography
-              color="neutral.400"
-              sx={{ mb: 2 }}
-              variant="body2"
-            >
-              Please check our docs.
-            </Typography>
             <Button
               component="a"
               fullWidth
-              href={paths.docs}
+              href={paths.typebot}
               startIcon={(
                 <SvgIcon>
                   <File04Icon />
@@ -206,7 +193,7 @@ export const MobileNav = (props) => {
               target="_blank"
               variant="contained"
             >
-              Documentation
+              Meus TypeBots
             </Button>
           </Box>
         </Stack>
