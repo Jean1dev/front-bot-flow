@@ -2,7 +2,7 @@ const Logo = (props) => {
     return (
         <img
             alt="Logo"
-            src="/static/logo.jpg"
+            src="/static/logo.png"
             {...props}
         />
     );

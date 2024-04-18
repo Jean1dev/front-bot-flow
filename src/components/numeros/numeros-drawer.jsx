@@ -8,11 +8,17 @@ import Stack from '@mui/material/Stack';
 import SvgIcon from '@mui/material/SvgIcon';
 import Typography from '@mui/material/Typography';
 import useMediaQuery from '@mui/material/useMediaQuery';
+import { NumeroDetalhes } from './numeros-drawer-detalhes';
+import { NumberDrawerEdit } from './numeros-drawer-edit';
 
 export const NumerosDrawer = (props) => {
-  const { container, onClose, open, order } = props;
+  const { container, onClose, open, number } = props;
   const [isEditing, setIsEditing] = useState(false);
   const lgUp = useMediaQuery((theme) => theme.breakpoints.up('lg'));
+
+  const onEditCompleted = useCallback((data) => {
+    console.log('onEditCompleted', data);
+  }, [])
 
   const handleEditOpen = useCallback(() => {
     setIsEditing(true);
@@ -24,7 +30,7 @@ export const NumerosDrawer = (props) => {
 
   let content = null;
 
-  if (order) {
+  if (number) {
     content = (
       <div>
         <Stack
@@ -40,7 +46,7 @@ export const NumerosDrawer = (props) => {
             color="inherit"
             variant="h6"
           >
-            {order.number}
+            {number.nick}
           </Typography>
           <IconButton
             color="inherit"
@@ -59,11 +65,61 @@ export const NumerosDrawer = (props) => {
         >
           {!isEditing
             ? (
-              <h1>Details</h1>
+              <NumeroDetalhes
+                onApprove={onClose}
+                onEdit={handleEditOpen}
+                onReject={onClose}
+                number={number}
+              />
             )
             : (
-              <h1>Edit</h1>
+              <NumberDrawerEdit
+                onCancel={handleEditCancel}
+                onSave={handleEditCancel}
+                number={number}
+              />
             )}
+        </Box>
+      </div>
+    );
+  } else {
+    content = (
+      <div>
+        <Stack
+          alignItems="center"
+          direction="row"
+          justifyContent="space-between"
+          sx={{
+            px: 3,
+            py: 2,
+          }}
+        >
+          <Typography
+            color="inherit"
+            variant="h6"
+          >
+            Novo numero
+          </Typography>
+          <IconButton
+            color="inherit"
+            onClick={onClose}
+          >
+            <SvgIcon>
+              <XIcon />
+            </SvgIcon>
+          </IconButton>
+        </Stack>
+        <Box
+          sx={{
+            px: 3,
+            py: 4,
+          }}
+        >
+          <NumberDrawerEdit
+            onCancel={handleEditCancel}
+            onSave={onEditCompleted}
+            number={null}
+          />
         </Box>
       </div>
     );
@@ -121,5 +177,5 @@ NumerosDrawer.propTypes = {
   container: PropTypes.any,
   onClose: PropTypes.func,
   open: PropTypes.bool,
-  order: PropTypes.object,
+  number: PropTypes.object,
 };

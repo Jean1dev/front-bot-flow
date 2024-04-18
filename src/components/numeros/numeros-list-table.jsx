@@ -20,22 +20,21 @@ export const NumerosListTable = (props) => {
     count = 0, items = [], onPageChange = () => {
     }, onRowsPerPageChange, onSelect, page = 0, rowsPerPage = 0,
   } = props;
-
+  
   return (
     <div>
       <Table>
         <TableBody>
-          {items.map((order) => {
-            const createdAtMonth = order.createdAt
-            const createdAtDay = order.createdAt
-            const totalAmount = order.totalAmount
-            const statusColor = statusMap[order.status] || 'warning';
+          {items.map((number) => {
+            const createdAtDay = number.createdAt
+            const totalAmount = number.totalSpent
+            const statusColor = statusMap[number.status] || 'warning';
 
             return (
               <TableRow
                 hover
-                key={order.id}
-                onClick={() => onSelect?.(order.id)}
+                key={number.id}
+                onClick={() => onSelect?.(number.id)}
                 sx={{ cursor: 'pointer' }}
               >
                 <TableCell
@@ -59,24 +58,24 @@ export const NumerosListTable = (props) => {
                       align="center"
                       variant="subtitle2"
                     >
-                      {createdAtMonth}
+                      {createdAtDay}
                     </Typography>
                     <Typography
                       align="center"
                       variant="h6"
                     >
-                      {createdAtDay}
+                      {number.nick}
                     </Typography>
                   </Box>
                   <Box sx={{ ml: 2 }}>
                     <Typography variant="subtitle2">
-                      {order.number}
+                      {number.number}
                     </Typography>
                     <Typography
                       color="text.secondary"
                       variant="body2"
                     >
-                      Total of
+                      Total
                       {' '}
                       {totalAmount}
                     </Typography>
@@ -84,7 +83,7 @@ export const NumerosListTable = (props) => {
                 </TableCell>
                 <TableCell align="right">
                   <SeverityPill color={statusColor}>
-                    {order.status}
+                    {number.status}
                   </SeverityPill>
                 </TableCell>
               </TableRow>
