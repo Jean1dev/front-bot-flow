@@ -49,6 +49,7 @@ StepIcon.propTypes = {
 };
 
 export const CriarNovaCampanhaForm = () => {
+  const [campanha, setCampanha] = useState({});
   const [activeStep, setActiveStep] = useState(0);
   const [isComplete, setIsComplete] = useState(false);
 
@@ -60,9 +61,10 @@ export const CriarNovaCampanhaForm = () => {
     setActiveStep((prevState) => prevState - 1);
   }, []);
 
-  const handleComplete = useCallback(() => {
+  const handleComplete = useCallback((tags) => {
     setIsComplete(true);
-  }, []);
+    console.log(campanha, tags);
+  }, [campanha]);
 
   const steps = useMemo(() => {
     return [
@@ -70,6 +72,7 @@ export const CriarNovaCampanhaForm = () => {
         label: 'Categoria da campanha',
         content: (
           <CampanhaCategoriaStep
+            setCampanha={setCampanha}
             onBack={handleBack}
             onNext={handleNext}
           />
@@ -79,6 +82,7 @@ export const CriarNovaCampanhaForm = () => {
         label: 'Detalhes',
         content: (
           <DetalhesCampanhaStep
+            setCampanha={setCampanha}
             onBack={handleBack}
             onNext={handleNext}
           />
@@ -94,7 +98,7 @@ export const CriarNovaCampanhaForm = () => {
         ),
       },
     ];
-  }, [handleBack, handleNext, handleComplete]);
+  }, [handleBack, handleNext, handleComplete, campanha]);
 
   if (isComplete) {
     return <CampanhaPreview />;

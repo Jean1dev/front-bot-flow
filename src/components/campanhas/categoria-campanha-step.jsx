@@ -27,10 +27,11 @@ const categoryOptions = [
 ];
 
 export const CampanhaCategoriaStep = (props) => {
-  const { onBack, onNext, ...other } = props;
+  const { onBack, onNext, setCampanha, ...other } = props;
   const [category, setCategory] = useState(categoryOptions[1].value);
 
   const handleCategoryChange = useCallback((category) => {
+    setCampanha((prevState) => ({ ...prevState, category }));
     setCategory(category);
   }, []);
 

@@ -6,6 +6,7 @@ import Stack from '@mui/material/Stack';
 import SvgIcon from '@mui/material/SvgIcon';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
+import { useCallback, useState } from 'react';
 
 const numerosVerificados = [
     {
@@ -19,7 +20,16 @@ const numerosVerificados = [
 ];
 
 export const DetalhesCampanhaStep = (props) => {
-    const { onBack, onNext, ...other } = props;
+    const { onBack, onNext, setCampanha, ...other } = props;
+    const [state, setState] = useState({
+        title: '',
+        number: numerosVerificados[0].value
+    })
+
+    const finish = useCallback(() => {
+        setCampanha((prevState) => ({ ...prevState, ...state }));
+        onNext();
+    }, [state])
 
     return (
         <Stack
@@ -35,11 +45,14 @@ export const DetalhesCampanhaStep = (props) => {
                     fullWidth
                     label="Titulo da campanha"
                     name="title"
+                    value={state.title}
                     placeholder="e.g Salesforce Analyst"
+                    onChange={(e) => setState({...state, title: e.target.value})}
                 />
                 <TextField
                     defaultValue={numerosVerificados[0].value}
                     fullWidth
+                    value={state.number}
                     label="Numero para disparo"
                     name="numero"
                     select
@@ -65,7 +78,7 @@ export const DetalhesCampanhaStep = (props) => {
                             <ArrowRightIcon />
                         </SvgIcon>
                     )}
-                    onClick={onNext}
+                    onClick={finish}
                     variant="contained"
                 >
                     Continue

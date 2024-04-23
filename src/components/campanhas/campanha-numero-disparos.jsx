@@ -1,36 +1,60 @@
 import { useCallback, useState } from 'react';
 import PropTypes from 'prop-types';
-import MenuItem from '@mui/material/MenuItem';
 import ArrowRightIcon from '@untitled-ui/icons-react/build/esm/ArrowRight';
 import Button from '@mui/material/Button';
 import Chip from '@mui/material/Chip';
 import InputAdornment from '@mui/material/InputAdornment';
 import Stack from '@mui/material/Stack';
+import Alert from '@mui/material/Alert';
 import SvgIcon from '@mui/material/SvgIcon';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import { FileDropzone } from '../file-dropzone';
-
-const numerosVerificados = [
-    {
-        label: 'Numero verificado 1',
-        value: 'healthcare',
-    },
-    {
-        label: 'Numero verificado 2',
-        value: 'makeup',
-    },
-];
+import Papa from "papaparse";
 
 export const CampanhaNumeroDisparos = (props) => {
     const { onBack, onNext, ...other } = props;
+    const [alert, setAlert] = useState(null);
     const [tag, setTag] = useState('');
     const [tags, setTags] = useState([]);
     const [files, setFiles] = useState([]);
 
     const handleDrop = useCallback((newFiles) => {
-        setFiles((prevFiles) => {
-            return [...prevFiles, ...newFiles];
+        Papa.parse(newFiles[0], {
+            header: true,
+            skipEmptyLines: true,
+            complete: function (results) {
+                if (results.errors && results.errors.length > 0) {
+                    const message = results.errors.map((error) => error.message).join('\n');
+                    setAlert({
+                        type: 'error',
+                        text: message
+                    })
+                    return
+                }
+
+                const rowsArray = [];
+                const valuesArray = [];
+
+                results.data.map((d) => {
+                    rowsArray.push(Object.keys(d));
+                    valuesArray.push(Object.values(d));
+                });
+
+
+                setFiles((prevFiles) => {
+                    return [...prevFiles, ...newFiles];
+                });
+                
+                setTags((prevState) => {
+                    return [...prevState, ...valuesArray.map(arrayInterno => arrayInterno[1])];
+                })
+
+                setAlert({
+                    type: 'success',
+                    text: `${valuesArray.length} numeros adicionados`
+                })
+            },
         });
     }, []);
 
@@ -45,6 +69,7 @@ export const CampanhaNumeroDisparos = (props) => {
     }, []);
 
     const handleTagAdd = useCallback((tag) => {
+        setAlert(null)
         setTags((prevState) => {
             return [...prevState, tag];
         });
@@ -56,6 +81,10 @@ export const CampanhaNumeroDisparos = (props) => {
         });
     }, []);
 
+    const finish = useCallback(() => {
+        onNext(tags)
+    }, [tags, onNext]);
+
     return (
         <Stack
             spacing={3}
@@ -66,6 +95,11 @@ export const CampanhaNumeroDisparos = (props) => {
                 </Typography>
             </div>
             <Stack spacing={3}>
+                {
+                    alert && (
+                        <Alert severity={alert.type}>{alert.text}</Alert>
+                    )
+                }
                 <TextField
                     fullWidth
                     InputProps={{
@@ -94,7 +128,7 @@ export const CampanhaNumeroDisparos = (props) => {
                     value={tag}
                 />
                 <Typography variant="h6">
-                    Upload de arquivo csv. Formato nome;numero
+                    Upload de arquivo csv. Formato nome,numero
                 </Typography>
                 <FileDropzone
                     accept={{ '*/*': [] }}
@@ -103,7 +137,7 @@ export const CampanhaNumeroDisparos = (props) => {
                     onDrop={handleDrop}
                     onRemove={handleRemove}
                     onRemoveAll={handleRemoveAll}
-                    onUpload={() => { }}
+                    onUpload={() => { console.log('onUpload') }}
                 />
                 <Stack
                     alignItems="center"
@@ -132,7 +166,7 @@ export const CampanhaNumeroDisparos = (props) => {
                             <ArrowRightIcon />
                         </SvgIcon>
                     )}
-                    onClick={onNext}
+                    onClick={finish}
                     variant="contained"
                 >
                     Criar campanha
