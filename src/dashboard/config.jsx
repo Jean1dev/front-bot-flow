@@ -1,7 +1,11 @@
 import { useMemo } from "react"
 import { paths } from "../paths"
 import { SvgIcon } from "@mui/material"
-import { HomeSmile } from "@untitled-ui/icons-react"
+import { 
+    HomeSmile,
+    Phone,
+    MarkerPin01
+} from "@untitled-ui/icons-react"
 
 export const useSections = () => {
     return useMemo(() => {
@@ -16,7 +20,37 @@ export const useSections = () => {
                                 <HomeSmile/>
                             </SvgIcon>
                         )
-                    }
+                    },
+                    {
+                        title: 'Campanhas',
+                        path: paths.campanhas.criar,
+                        icon: (
+                            <SvgIcon fontSize="small">
+                                <MarkerPin01 />
+                            </SvgIcon>
+                        ),
+                        items: [
+                            {
+                                title: 'Criar nova campanha',
+                                path: paths.campanhas.criar
+                            },
+                        ]
+                    },
+                    {
+                        title: 'Numeros',
+                        path: paths.numeros.list,
+                        icon: (
+                            <SvgIcon fontSize="small">
+                                <Phone />
+                            </SvgIcon>
+                        ),
+                        items: [
+                            {
+                                title: 'Consultar Numeros',
+                                path: paths.numeros.list
+                            },
+                        ]
+                    },
                 ]
             }
         ]

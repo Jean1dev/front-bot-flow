@@ -1,8 +1,10 @@
 import { Suspense, lazy } from "react";
 import { Layout } from "../dashboard/layout";
 import { Outlet } from "react-router-dom";
+import { paths } from "../paths";
 
-const BotFlowView = lazy(() => import('src/pages/bot-flow'))
+const CriarNovaCampanhaPage = lazy(() => import('src/pages/campanhas'))
+const NumerosPage = lazy(() => import('src/pages/numeros'))
 
 export const routes = [
     {
@@ -17,8 +19,26 @@ export const routes = [
         children: [
             {
                 index: true,
-                element: <BotFlowView/>
-            }
+                element: <h1>wip</h1>
+            },
+            {
+                path: paths.campanhas.criar,
+                children: [
+                    {
+                        index: true,
+                        element: <CriarNovaCampanhaPage />
+                    }
+                ]
+            },
+            {
+                path: paths.numeros.list,
+                children: [
+                    {
+                        index: true,
+                        element: <NumerosPage />
+                    }
+                ]
+            },
         ]
     }
 ]
