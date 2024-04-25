@@ -18,7 +18,7 @@ import Typography from '@mui/material/Typography';
 import { FileIcon } from 'src/components/file-icon';
 
 /* eslint-disable no-restricted-properties */
-export const bytesToSize = (bytes, decimals = 2) => {
+const bytesToSize = (bytes, decimals = 2) => {
     if (bytes === 0) {
         return '0 Bytes';
     }
@@ -30,7 +30,6 @@ export const bytesToSize = (bytes, decimals = 2) => {
 
     return `${parseFloat((bytes / Math.pow(k, i)).toFixed(dm))} ${sizes[i]}`;
 };
-
 
 export const FileDropzone = (props) => {
     const { caption, files = [], onRemove, onRemoveAll, onUpload, ...other } = props;

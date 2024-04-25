@@ -101,7 +101,7 @@ export const CriarNovaCampanhaForm = () => {
   }, [handleBack, handleNext, handleComplete, campanha]);
 
   if (isComplete) {
-    return <CampanhaPreview />;
+    return <CampanhaPreview campanha={campanha}/>;
   }
 
   return (
