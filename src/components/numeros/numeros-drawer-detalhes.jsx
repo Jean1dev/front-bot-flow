@@ -18,7 +18,7 @@ const statusMap = {
 };
 
 export const NumeroDetalhes = (props) => {
-  const { onApprove, onEdit, onReject, number } = props;
+  const { onApprove, onEdit, onReject, number, infoComplementares } = props;
   const lgUp = useMediaQuery((theme) => theme.breakpoints.up('lg'));
 
   const align = lgUp ? 'horizontal' : 'vertical';
@@ -36,7 +36,7 @@ export const NumeroDetalhes = (props) => {
           spacing={3}
         >
           <Typography variant="h6">
-            Details
+            Detalhes
           </Typography>
           <Button
             color="inherit"
@@ -63,7 +63,7 @@ export const NumeroDetalhes = (props) => {
             align={align}
             disableGutters
             divider
-            label="Number"
+            label="Numero"
             value={number.number}
           />
           <PropertyListItem

@@ -13,6 +13,9 @@ import { CampanhaCategoriaStep } from './categoria-campanha-step';
 import { DetalhesCampanhaStep } from './detalhes-campanha-step';
 import { CampanhaPreview } from './campanha-preview';
 import { CampanhaNumeroDisparos } from './campanha-numero-disparos';
+import { campanhaApi } from '../../api/campanha';
+import toast from 'react-hot-toast';
+import Loading from '../loading';
 
 const StepIcon = (props) => {
   const { active, completed, icon } = props;
@@ -52,6 +55,7 @@ export const CriarNovaCampanhaForm = () => {
   const [campanha, setCampanha] = useState({});
   const [activeStep, setActiveStep] = useState(0);
   const [isComplete, setIsComplete] = useState(false);
+  const [loading, setLoading] = useState(false)
 
   const handleNext = useCallback(() => {
     setActiveStep((prevState) => prevState + 1);
@@ -61,9 +65,19 @@ export const CriarNovaCampanhaForm = () => {
     setActiveStep((prevState) => prevState - 1);
   }, []);
 
-  const handleComplete = useCallback((tags) => {
-    setIsComplete(true);
-    console.log(campanha, tags);
+  const handleComplete = useCallback((numerosParaDisparo) => {
+    setLoading(true)
+    campanhaApi.criarNovaCampanha({
+      titulo: campanha.title,
+      numeroIdRef: campanha.number,
+      categoria: campanha.category,
+      numerosParaDisparo
+    }).then(() => {
+      setIsComplete(true);
+      toast.success('Campanha criada com sucesso')
+    }).finally(() => {
+      setLoading(false)
+    })
   }, [campanha]);
 
   const steps = useMemo(() => {
@@ -100,8 +114,12 @@ export const CriarNovaCampanhaForm = () => {
     ];
   }, [handleBack, handleNext, handleComplete, campanha]);
 
+  if (loading) {
+    return <Loading />
+  }
+
   if (isComplete) {
-    return <CampanhaPreview campanha={campanha}/>;
+    return <CampanhaPreview campanha={campanha} />;
   }
 
   return (

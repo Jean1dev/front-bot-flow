@@ -15,24 +15,24 @@ import { useUpdateEffect } from 'src/hooks/use-update-effect';
 
 const tabOptions = [
   {
-    label: 'All',
+    label: 'Todos',
     value: 'all',
   },
   {
-    label: 'Canceled',
-    value: 'canceled',
+    label: 'Criado',
+    value: 'CRIADO',
   },
   {
-    label: 'Completed',
-    value: 'complete',
+    label: 'Validado',
+    value: 'VALIDADO',
   },
   {
-    label: 'Pending',
-    value: 'pending',
+    label: 'Pendente',
+    value: 'PENDENTE',
   },
   {
-    label: 'Rejected',
-    value: 'rejected',
+    label: 'Banido',
+    value: 'BANIDO',
   },
 ];
 
