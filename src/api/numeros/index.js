@@ -5,9 +5,11 @@ class NumerosAPiMock {
     getNumeros(_) {
         return retornaComAtraso(numerosData)
     }
-
     getById(_) {
         return retornaComAtraso(fullNumber)
+    }
+    addNovoNumero(_) {
+        return retornaComAtraso({})
     }
 }
 
@@ -15,9 +17,11 @@ class NumerosApi {
     getNumeros(filters) {
         return httpApiGerenciamentoDados.get('/numeros', { params: filters });
     }
-
     getById(id) {
         return httpApiGerenciamentoDados.get(`/numeros/${id}`);
+    }
+    addNovoNumero(data) {
+        return httpApiGerenciamentoDados.post('/numeros', data);
     }
 }
 

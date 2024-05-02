@@ -7,20 +7,20 @@ import { useCallback, useState } from 'react';
 
 const statusOptions = [
     {
-        label: 'Canceled',
-        value: 'canceled',
+        label: 'Criado',
+        value: 'CRIADO',
     },
     {
-        label: 'Complete',
-        value: 'complete',
+        label: 'Validado',
+        value: 'VALIDADO',
     },
     {
-        label: 'Pending',
-        value: 'pending',
+        label: 'Pendente',
+        value: 'PENDENTE',
     },
     {
-        label: 'Rejected',
-        value: 'rejected',
+        label: 'Banido',
+        value: 'BANIDO',
     },
 ];
 
@@ -30,7 +30,7 @@ export const NumberDrawerEdit = (props) => {
         id: number?.id,
         number: number?.number,
         createdAt: number?.createdAt || new Date(),
-        status: number?.status,
+        status: number?.status || 'Novo',
         nick: number?.nick,
     })
 
@@ -81,6 +81,7 @@ export const NumberDrawerEdit = (props) => {
                         label="Status"
                         name="status"
                         select
+                        disabled
                         SelectProps={{ native: true }}
                         value={state.status}
                     >

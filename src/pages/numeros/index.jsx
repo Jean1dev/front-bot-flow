@@ -18,9 +18,9 @@ import { numerosApi } from '../../api/numeros';
 function mapContent(values) {
     return values.map((value) => ({
         id: value.id,
-        createdAt: 'Ha dois dias atras',
+        createdAt: value.createdAt,
         number: value.numero,
-        status: 'pending',
+        status: value.status,
         nick: value.nick,
         totalDeliverys: 150,
         totalSpent: 'R$ 0.50'
@@ -110,11 +110,11 @@ const NumerosListPage = () => {
         const filter = {
             page: numbersSearch.state.page,
             size: numbersSearch.state.rowsPerPage,
-            sortByNewest: numbersSearch.state.sortDir == "asc" ? true: false,
+            sortByNewest: numbersSearch.state.sortDir == "asc" ? true : false,
             terms: numbersSearch.state.filters.query,
             status: numbersSearch.state.filters.status,
         }
-
+        
         numerosApi.getNumeros(filter)
             .then(({ data }) => {
                 setState({

@@ -13,6 +13,7 @@ import { NumberDrawerEdit } from './numeros-drawer-edit';
 import { numerosApi } from '../../api/numeros';
 import { botEngineApi } from '../../api/bot-engine';
 import toast from 'react-hot-toast';
+import { generateRandomString } from '../../utils';
 
 export const NumerosDrawer = (props) => {
   const { container, onClose, open, number } = props;
@@ -28,15 +29,22 @@ export const NumerosDrawer = (props) => {
   }, [number])
 
   const onEditCompleted = useCallback((data) => {
-    console.log('onEditCompleted', data);
     toast.success('Gerando seu QrCode')
-    botEngineApi.generateNewQrCode()
+    const randomCode = generateRandomString(10)
+
+    numerosApi.addNovoNumero({
+      nick: data.nick,
+      numero: data.number
+    }).then(() => toast.success('Numero adicionado'))
+
+    botEngineApi.generateNewQrCode(randomCode)
       .then(response => {
         const html = response.data;
         const newTab = window.open('', '_blank');
         newTab.document.write(html);
         onClose()
       })
+
   }, [])
 
   const handleEditOpen = useCallback(() => {

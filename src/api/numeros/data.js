@@ -3,12 +3,14 @@ const numerosData = {
         {
             "id": "662fb04abace153a83ed89ab",
             "nick": "nick",
-            "numero": "numero"
+            "numero": "numero",
+            "status": "PENDENTE"
         },
         {
             "id": "662fb04abace153a83ed89aa",
             "nick": "Outro numero",
-            "numero": "55 (48) 99845- 7797"
+            "numero": "55 (48) 99845- 7797",
+            "status": "VALIDADO"
         }
     ],
     "pageable": {

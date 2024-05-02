@@ -7,13 +7,7 @@ import TablePagination from '@mui/material/TablePagination';
 import TableRow from '@mui/material/TableRow';
 import Typography from '@mui/material/Typography';
 import { SeverityPill } from 'src/components/severity-pill';
-
-const statusMap = {
-  complete: 'success',
-  pending: 'info',
-  canceled: 'warning',
-  rejected: 'error',
-};
+import { StatusNumeroColorMap } from '../../constants/statusMap';
 
 export const NumerosListTable = (props) => {
   const {
@@ -28,7 +22,7 @@ export const NumerosListTable = (props) => {
           {items.map((number) => {
             const createdAtDay = number.createdAt
             const totalAmount = number.totalSpent
-            const statusColor = statusMap[number.status] || 'warning';
+            const statusColor = StatusNumeroColorMap[number.status] || 'warning';
 
             return (
               <TableRow
