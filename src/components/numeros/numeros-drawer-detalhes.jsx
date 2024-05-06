@@ -9,21 +9,15 @@ import useMediaQuery from '@mui/material/useMediaQuery';
 import { SeverityPill } from 'src/components/severity-pill';
 import { PropertyList } from 'src/components/property-list';
 import { PropertyListItem } from 'src/components/property-list-item';
-
-const statusMap = {
-  canceled: 'warning',
-  complete: 'success',
-  pending: 'info',
-  rejected: 'error',
-};
+import { StatusNumeroColorMap } from '../../constants/statusMap';
 
 export const NumeroDetalhes = (props) => {
-  const { onApprove, onEdit, onReject, number } = props;
+  const { onApprove, onEdit, onReject, number, infoComplementares } = props;
   const lgUp = useMediaQuery((theme) => theme.breakpoints.up('lg'));
 
   const align = lgUp ? 'horizontal' : 'vertical';
   const createdAt = number.createdAt
-  const statusColor = statusMap[number.status];
+  const statusColor = StatusNumeroColorMap[number.status];
   const totalAmount = number.totalSpent
 
   return (
@@ -36,7 +30,7 @@ export const NumeroDetalhes = (props) => {
           spacing={3}
         >
           <Typography variant="h6">
-            Details
+            Detalhes
           </Typography>
           <Button
             color="inherit"
@@ -63,7 +57,7 @@ export const NumeroDetalhes = (props) => {
             align={align}
             disableGutters
             divider
-            label="Number"
+            label="Numero"
             value={number.number}
           />
           <PropertyListItem
@@ -101,7 +95,7 @@ export const NumeroDetalhes = (props) => {
             align={align}
             disableGutters
             divider
-            label="Date"
+            label="Data"
             value={createdAt}
           />
           <PropertyListItem

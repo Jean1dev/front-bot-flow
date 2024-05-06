@@ -13,18 +13,21 @@ import { NumerosListContainer } from 'src/components/numeros/numeros-list-contai
 import { NumerosListSearch } from 'src/components/numeros/numeros-list-search';
 import { NumerosListTable } from 'src/components/numeros/numeros-list-table';
 import { NumerosDrawer } from 'src/components/numeros/numeros-drawer';
+import { numerosApi } from '../../api/numeros';
 
-const default1 = {
-    id: '5ecb8a6879877087d4aa2690',
-    createdAt: 'Ha dois dias atras',
-    number: '55 (48) 998457797',
-    status: 'pending',
-    nick: 'meu primeiro fone',
-    totalDeliverys: 150,
-    totalSpent: 'R$ 0.50'
+function mapContent(values) {
+    return values.map((value) => ({
+        id: value.id,
+        createdAt: value.createdAt,
+        number: value.numero,
+        status: value.status,
+        nick: value.nick,
+        totalDeliverys: 150,
+        totalSpent: 'R$ 0.50'
+    }));
 }
 
-const useOrdersSearch = () => {
+const useNumbersSearch = () => {
     const [state, setState] = useState({
         filters: {
             query: undefined,
@@ -85,18 +88,16 @@ const useCurrentData = (numbers, Id) => {
 
 const NumerosListPage = () => {
     const [state, setState] = useState({
-        orders: [default1],
-        ordersCount: 1,
+        numbers: [],
+        numbersCount: 1,
     });
 
     const rootRef = useRef(null);
-    const ordersSearch = useOrdersSearch();
+    const numbersSearch = useNumbersSearch();
     const dialog = useDialog();
-    const currentNumber = useCurrentData(state.orders, dialog.data);
+    const currentNumber = useCurrentData(state.numbers, dialog.data);
 
     const handleOrderOpen = useCallback((orderId) => {
-        // Close drawer if is the same order
-
         if (dialog.open && dialog.data === orderId) {
             dialog.handleClose();
             return;
@@ -104,6 +105,24 @@ const NumerosListPage = () => {
 
         dialog.handleOpen(orderId);
     }, [dialog]);
+
+    useEffect(() => {
+        const filter = {
+            page: numbersSearch.state.page,
+            size: numbersSearch.state.rowsPerPage,
+            sortByNewest: numbersSearch.state.sortDir == "asc" ? true : false,
+            terms: numbersSearch.state.filters.query,
+            status: numbersSearch.state.filters.status,
+        }
+        
+        numerosApi.getNumeros(filter)
+            .then(({ data }) => {
+                setState({
+                    numbers: mapContent(data.content),
+                    numbersCount: data.totalElements
+                })
+            })
+    }, [numbersSearch.state])
 
     return (
         <>
@@ -160,20 +179,20 @@ const NumerosListPage = () => {
                         </Box>
                         <Divider />
                         <NumerosListSearch
-                            onFiltersChange={ordersSearch.handleFiltersChange}
-                            onSortChange={ordersSearch.handleSortChange}
-                            sortBy={ordersSearch.state.sortBy}
-                            sortDir={ordersSearch.state.sortDir}
+                            onFiltersChange={numbersSearch.handleFiltersChange}
+                            onSortChange={numbersSearch.handleSortChange}
+                            sortBy={numbersSearch.state.sortBy}
+                            sortDir={numbersSearch.state.sortDir}
                         />
                         <Divider />
                         <NumerosListTable
-                            count={state.ordersCount}
-                            items={state.orders}
-                            onPageChange={ordersSearch.handlePageChange}
-                            onRowsPerPageChange={ordersSearch.handleRowsPerPageChange}
+                            count={state.numbersCount}
+                            items={state.numbers}
+                            onPageChange={numbersSearch.handlePageChange}
+                            onRowsPerPageChange={numbersSearch.handleRowsPerPageChange}
                             onSelect={handleOrderOpen}
-                            page={ordersSearch.state.page}
-                            rowsPerPage={ordersSearch.state.rowsPerPage}
+                            page={numbersSearch.state.page}
+                            rowsPerPage={numbersSearch.state.rowsPerPage}
                         />
                     </NumerosListContainer>
                     <NumerosDrawer

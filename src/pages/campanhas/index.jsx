@@ -6,9 +6,7 @@ import Typography from '@mui/material/Typography';
 import { Seo } from 'src/components/seo';
 import { CriarNovaCampanhaForm } from 'src/components/campanhas/criar-campanha-form';
 
-
-const CriarNovaCampanhaPage = () => {
-
+const CriarNovaCampanhaPage = () => {  
   return (
     <>
       <Seo title="Campanhas: Nova Campanha" />

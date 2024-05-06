@@ -1,4 +1,4 @@
-import { useCallback, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import XIcon from '@untitled-ui/icons-react/build/esm/X';
 import Box from '@mui/material/Box';
@@ -10,14 +10,41 @@ import Typography from '@mui/material/Typography';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { NumeroDetalhes } from './numeros-drawer-detalhes';
 import { NumberDrawerEdit } from './numeros-drawer-edit';
+import { numerosApi } from '../../api/numeros';
+import { botEngineApi } from '../../api/bot-engine';
+import toast from 'react-hot-toast';
+import { generateRandomString } from '../../utils';
 
 export const NumerosDrawer = (props) => {
   const { container, onClose, open, number } = props;
   const [isEditing, setIsEditing] = useState(false);
   const lgUp = useMediaQuery((theme) => theme.breakpoints.up('lg'));
+  const [infoComplementares, setInfoComplementares] = useState(null);
+
+  useEffect(() => {
+    if (number) {
+      numerosApi.getById(number.id)
+        .then(res => setInfoComplementares(res.data))
+    }
+  }, [number])
 
   const onEditCompleted = useCallback((data) => {
-    console.log('onEditCompleted', data);
+    toast.success('Gerando seu QrCode')
+    const randomCode = generateRandomString(10)
+
+    numerosApi.addNovoNumero({
+      nick: data.nick,
+      numero: data.number
+    }).then(() => toast.success('Numero adicionado'))
+
+    botEngineApi.generateNewQrCode(randomCode)
+      .then(response => {
+        const html = response.data;
+        const newTab = window.open('', '_blank');
+        newTab.document.write(html);
+        onClose()
+      })
+
   }, [])
 
   const handleEditOpen = useCallback(() => {
@@ -26,6 +53,7 @@ export const NumerosDrawer = (props) => {
 
   const handleEditCancel = useCallback(() => {
     setIsEditing(false);
+    onClose()
   }, []);
 
   let content = null;
@@ -70,6 +98,7 @@ export const NumerosDrawer = (props) => {
                 onEdit={handleEditOpen}
                 onReject={onClose}
                 number={number}
+                infoComplementares={infoComplementares}
               />
             )
             : (
