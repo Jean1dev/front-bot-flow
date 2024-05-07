@@ -12,7 +12,7 @@ import { PropertyListItem } from 'src/components/property-list-item';
 import { StatusNumeroColorMap } from '../../constants/statusMap';
 
 export const NumeroDetalhes = (props) => {
-  const { onApprove, onEdit, onReject, number, infoComplementares } = props;
+  const { onEdit, onReject, number, infoComplementares } = props;
   const lgUp = useMediaQuery((theme) => theme.breakpoints.up('lg'));
 
   const align = lgUp ? 'horizontal' : 'vertical';
@@ -130,13 +130,6 @@ export const NumeroDetalhes = (props) => {
           justifyContent="flex-end"
           spacing={2}
         >
-          <Button
-            onClick={onApprove}
-            size="small"
-            variant="contained"
-          >
-            Salvar
-          </Button>
           <Button
             color="error"
             onClick={onReject}
