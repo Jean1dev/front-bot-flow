@@ -124,6 +124,5 @@ export const NumberDrawerEdit = (props) => {
 
 NumberDrawerEdit.propTypes = {
     onCancel: PropTypes.func,
-    onSave: PropTypes.func,
     number: PropTypes.object,
 };

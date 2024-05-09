@@ -11,6 +11,9 @@ class NumerosAPiMock {
     addNovoNumero(_) {
         return retornaComAtraso({})
     }
+    addWhatsappId(..._) {
+        return retornaComAtraso({})
+    }
 }
 
 class NumerosApi {
@@ -22,6 +25,9 @@ class NumerosApi {
     }
     addNovoNumero(data) {
         return httpApiGerenciamentoDados.post('/numeros', data);
+    }
+    addWhatsappId(id, whatsId) {
+        return httpApiGerenciamentoDados.put(`/numeros/${id}`, { whatsappId: whatsId });
     }
 }
 

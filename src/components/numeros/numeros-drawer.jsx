@@ -34,7 +34,8 @@ export const NumerosDrawer = (props) => {
 
     numerosApi.addNovoNumero({
       nick: data.nick,
-      numero: data.number
+      numero: data.number,
+      whatsappId: randomCode
     }).then(() => toast.success('Numero adicionado'))
 
     botEngineApi.generateNewQrCode(randomCode)
@@ -94,7 +95,6 @@ export const NumerosDrawer = (props) => {
           {!isEditing
             ? (
               <NumeroDetalhes
-                onApprove={onClose}
                 onEdit={handleEditOpen}
                 onReject={onClose}
                 number={number}
