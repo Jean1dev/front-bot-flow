@@ -2,16 +2,25 @@ import { ReactKeycloakProvider } from "@react-keycloak/web"
 import Keycloak from 'keycloak-js'
 import { KeycloakClientConfig } from './constants'
 import { renderApp } from "./main"
-import { useCallback, useMemo, useState } from "react"
+import { useCallback, useEffect, useMemo, useState } from "react"
 import { addAuthorizationHeader } from "./api/api-defaults"
 import AguardandoAuth from "./components/await-auth"
 import ServerError from "./components/server-error"
+import Hotjar from '@hotjar/browser';
 
 const initOptions = { pkceMethod: 'S256', onLoad: 'login-required' }
 const keycloakClient = new Keycloak(KeycloakClientConfig)
 
 export const AppWithKeycloak = () => {
     const [authState, setAuthState] = useState('await')
+
+    useEffect(() => {
+        let res = Hotjar.init(4981883, 6);
+        console.log('HOTJAR IS OK?', res)
+        if (res) {
+            res = Hotjar.event('Novo Acesso')
+        }
+    }, [])
 
     const app = useMemo(() => {
         if (authState === 'await') {
