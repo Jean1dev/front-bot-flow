@@ -19,7 +19,7 @@
     "@react-keycloak/web": "^3.4.0",
     "@untitled-ui/icons-react": "^0.1.1",
     "axios": "^1.6.2",
-    "keycloak-js": "^23.0.6",
+    "keycloak-js": "^24.0.4",
     "lodash.isequal": "^4.5.0",
     "papaparse": "^5.4.1",
     "prop-types": "^15.8.1",

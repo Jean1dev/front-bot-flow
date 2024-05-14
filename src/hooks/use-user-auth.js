@@ -17,7 +17,7 @@ function mockUser() {
 function kcServer() {
     const [user, setUser] = useState(defaulUser)
     const { initialized, keycloak } = useKeycloak()
-
+    
     async function loadUserInfo() {
         const result = await keycloak.loadUserInfo()
         setUser({
@@ -32,6 +32,7 @@ function kcServer() {
         if (initialized) {
             loadUserInfo()
         }
+
     }, [initialized])
 
     return { user }
