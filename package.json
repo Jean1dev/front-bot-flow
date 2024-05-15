@@ -12,6 +12,7 @@
   "dependencies": {
     "@emotion/react": "^11.11.3",
     "@emotion/styled": "^11.11.0",
+    "@hotjar/browser": "^1.0.9",
     "@mui/icons-material": "^5.14.15",
     "@mui/lab": "^5.0.0-alpha.150",
     "@mui/material": "^5.14.15",
@@ -19,7 +20,7 @@
     "@react-keycloak/web": "^3.4.0",
     "@untitled-ui/icons-react": "^0.1.1",
     "axios": "^1.6.2",
-    "keycloak-js": "^23.0.6",
+    "keycloak-js": "^24.0.4",
     "lodash.isequal": "^4.5.0",
     "papaparse": "^5.4.1",
     "prop-types": "^15.8.1",

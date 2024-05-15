@@ -17,3 +17,7 @@ export const httpApiGerenciamentoDados = axios.create({
     baseURL: BaseUrlApiGerenciamentoDados,
     timeout: 20000
 })
+
+export function addAuthorizationHeader(token) {
+    httpApiGerenciamentoDados.defaults.headers.common['Authorization'] = token
+}
