@@ -70,7 +70,7 @@ export const CriarNovaCampanhaForm = () => {
     campanhaApi.criarNovaCampanha({
       titulo: campanha.title,
       numeroIdRef: campanha.number,
-      categoria: campanha.category,
+      categoria: campanha.category || 'AVISO',
       numerosParaDisparo
     }).then(() => {
       setIsComplete(true);

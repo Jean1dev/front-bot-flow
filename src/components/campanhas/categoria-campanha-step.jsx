@@ -12,17 +12,17 @@ const categoryOptions = [
   {
     description: 'Melhor escolha para quem procura captar novos possiveis clientes',
     title: 'Obter leads',
-    value: 'leads',
+    value: 'LEADS',
   },
   {
     description: 'Aviso ou comunicado sobre alguma coisa',
     title: 'Avisar pessoas',
-    value: 'aviso',
+    value: 'AVISO',
   },
   {
     description: 'Situacao nao especifica',
     title: 'Outros',
-    value: 'outros',
+    value: 'OUTROS',
   },
 ];
 
