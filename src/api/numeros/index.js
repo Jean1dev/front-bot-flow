@@ -1,9 +1,12 @@
 import { httpApiGerenciamentoDados, isDev, retornaComAtraso } from "../api-defaults";
-import numerosData, { fullNumber } from "./data";
+import numerosData, { fullNumber, numerosSimplificados } from "./data";
 
 class NumerosAPiMock {
     getNumeros(_) {
         return retornaComAtraso(numerosData)
+    }
+    getNumerosSimplificado() {
+        return retornaComAtraso(numerosSimplificados)
     }
     getById(_) {
         return retornaComAtraso(fullNumber)
@@ -19,6 +22,9 @@ class NumerosAPiMock {
 class NumerosApi {
     getNumeros(filters) {
         return httpApiGerenciamentoDados.get('/numeros', { params: filters });
+    }
+    getNumerosSimplificado() {
+        return httpApiGerenciamentoDados.get('/numeros/simplificado');
     }
     getById(id) {
         return httpApiGerenciamentoDados.get(`/numeros/${id}`);

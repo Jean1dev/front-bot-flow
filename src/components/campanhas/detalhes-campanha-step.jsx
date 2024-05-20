@@ -6,30 +6,40 @@ import Stack from '@mui/material/Stack';
 import SvgIcon from '@mui/material/SvgIcon';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
-import { useCallback, useState } from 'react';
-
-const numerosVerificados = [
-    {
-        label: 'Numero verificado 1',
-        value: 'healthcare',
-    },
-    {
-        label: 'Numero verificado 2',
-        value: 'makeup',
-    },
-];
+import { useCallback, useEffect, useState } from 'react';
+import { numerosApi } from 'src/api/numeros';
 
 export const DetalhesCampanhaStep = (props) => {
     const { onBack, onNext, setCampanha, ...other } = props;
     const [state, setState] = useState({
         title: '',
-        number: numerosVerificados[0].value
+        number: undefined
     })
+
+    const [numerosVerificados, setNumerosVerificados] = useState([])
 
     const finish = useCallback(() => {
         setCampanha((prevState) => ({ ...prevState, ...state }));
         onNext();
     }, [state])
+
+    useEffect(() => {
+        numerosApi.getNumerosSimplificado().then(({ data: numeros }) => {
+            const numerosRemap = numeros.map(item => ({
+                label: item.descricao,
+                value: item.id
+            }))
+
+            setNumerosVerificados(numerosRemap)
+
+            if (numerosRemap.length > 0) {
+                setState((prevState) => ({
+                    ...prevState,
+                    number: numerosRemap[0].value
+                }))
+            }
+        })
+    }, [])
 
     return (
         <Stack
@@ -46,11 +56,10 @@ export const DetalhesCampanhaStep = (props) => {
                     label="Titulo da campanha"
                     name="title"
                     value={state.title}
-                    placeholder="e.g Salesforce Analyst"
-                    onChange={(e) => setState({...state, title: e.target.value})}
+                    placeholder="e.g Campanha informativa"
+                    onChange={(e) => setState({ ...state, title: e.target.value })}
                 />
                 <TextField
-                    defaultValue={numerosVerificados[0].value}
                     fullWidth
                     value={state.number}
                     label="Numero para disparo"

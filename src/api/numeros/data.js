@@ -49,4 +49,19 @@ export const fullNumber = {
     "whatsappInternalId": null
 }
 
+export const numerosSimplificados = [
+    {
+        "id": "662fb04abace153a83ed89ab",
+        "descricao": "pri-48993289832"
+    },
+    {
+        "id": "362fb04abace153a83ed89ab",
+        "descricao": "tri-48993289832"
+    },
+    {
+        "id": "462fb04abace153a83ed89ab",
+        "descricao": "sec-48993289832"
+    }
+]
+
 export default numerosData
