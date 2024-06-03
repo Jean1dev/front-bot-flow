@@ -1,9 +1,8 @@
-import axios from "axios";
-import { BaseUrlApiEngine } from "../../constants";
+import { httpBotBuilderEngine } from "../api-defaults";
 
 class BotEngine {
     generateNewQrCode(randomKey) {
-        return axios.post(`${BaseUrlApiEngine}/poc/whats/generate-code`, {
+        return httpBotBuilderEngine.post(`/poc/whats/generate-code`, {
             code: randomKey
         })
     }

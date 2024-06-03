@@ -17,6 +17,9 @@ class NumerosAPiMock {
     addWhatsappId(..._) {
         return retornaComAtraso({})
     }
+    atualizarNumero(_) {
+        return retornaComAtraso({})
+    }
 }
 
 class NumerosApi {
@@ -34,6 +37,9 @@ class NumerosApi {
     }
     addWhatsappId(id, whatsId) {
         return httpApiGerenciamentoDados.put(`/numeros/${id}`, { whatsappId: whatsId });
+    }
+    atualizarNumero(data) {
+        return httpApiGerenciamentoDados.put(`/numeros/atualizar/${data.id}`, data);
     }
 }
 

@@ -1,31 +1,12 @@
 import axios from "axios"
-import { BaseUrlApiGerenciamentoDados } from "../constants"
+import { BaseUrlApiEngine, BaseUrlApiGerenciamentoDados } from "../constants"
 import { toastError } from "../utils/toasts-utils"
 
-export function isDev() {
-    return process.env.NODE_ENV === 'development'
-}
-
-export function retornaComAtraso(value) {
-    return new Promise((resolve) => {
-        setTimeout(() => {
-            resolve({ data: value })
-        }, 1000)
-    })
-}
-
-export const httpApiGerenciamentoDados = axios.create({
-    baseURL: BaseUrlApiGerenciamentoDados,
-    timeout: 20000
-})
-
-export function addAuthorizationHeader(token) {
-    httpApiGerenciamentoDados.defaults.headers.common['Authorization'] = token
-}
-
-httpApiGerenciamentoDados.interceptors.response.use((response) => {
+const defaultSuccess = (response) => {
     return response;
-}, (error) => {
+}
+
+const defaultError = (error) => {
     console.log(error.code);
 
     if (error.code === 'ECONNABORTED') {
@@ -52,4 +33,33 @@ httpApiGerenciamentoDados.interceptors.response.use((response) => {
     }
 
     throw error;
-});
+}
+
+export function isDev() {
+    return process.env.NODE_ENV === 'development'
+}
+
+export function retornaComAtraso(value) {
+    return new Promise((resolve) => {
+        setTimeout(() => {
+            resolve({ data: value })
+        }, 1000)
+    })
+}
+
+export const httpApiGerenciamentoDados = axios.create({
+    baseURL: BaseUrlApiGerenciamentoDados,
+    timeout: 20000
+})
+
+export const httpBotBuilderEngine = axios.create({
+    baseURL: BaseUrlApiEngine,
+    timeout: 20000
+})
+
+export function addAuthorizationHeader(token) {
+    httpApiGerenciamentoDados.defaults.headers.common['Authorization'] = token
+}
+
+httpApiGerenciamentoDados.interceptors.response.use(defaultSuccess, defaultError);
+httpBotBuilderEngine.interceptors.response.use(defaultSuccess, defaultError);

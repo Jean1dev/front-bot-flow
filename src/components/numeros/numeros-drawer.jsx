@@ -28,6 +28,32 @@ export const NumerosDrawer = (props) => {
     }
   }, [number])
 
+  const onUpdateNumber = useCallback((data) => {
+    numerosApi.atualizarNumero({
+      numero: data.number,
+      apelido: data.nick,
+      id: data.id
+    }).then(() => {
+      toast.success('Numero atualizado')
+      setIsEditing(false)
+      toast.success('Gerando seu QrCode')
+      const randomCode = generateRandomString(11)
+
+      botEngineApi.generateNewQrCode(randomCode)
+        .then(response => {
+          toast('Abrindo o qrcode')
+
+          numerosApi.addWhatsappId(data.id, randomCode)
+            .then(() => {
+              toast.success('Whatsapp id adicionado')
+              const html = response.data;
+              const newTab = window.open('', '_blank');
+              newTab.document.write(html);
+            })
+        })
+    })
+  }, [])
+
   const onEditCompleted = useCallback((data) => {
     toast.success('Gerando seu QrCode')
     const randomCode = generateRandomString(10)
@@ -104,7 +130,7 @@ export const NumerosDrawer = (props) => {
             : (
               <NumberDrawerEdit
                 onCancel={handleEditCancel}
-                onSave={handleEditCancel}
+                onSave={onUpdateNumber}
                 number={number}
               />
             )}
