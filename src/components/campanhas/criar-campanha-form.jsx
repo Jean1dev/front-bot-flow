@@ -72,7 +72,14 @@ export const CriarNovaCampanhaForm = () => {
       numeroIdRef: campanha.number,
       categoria: campanha.category || 'AVISO',
       numerosParaDisparo
-    }).then(() => {
+    }).then((response) => {
+      const idCampanha = response.headers.id
+
+      setCampanha((prevState) => ({
+        ...prevState,
+        id: idCampanha
+      }))
+
       setIsComplete(true);
       toast.success('Campanha criada com sucesso')
     }).finally(() => {

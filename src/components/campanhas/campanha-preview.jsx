@@ -6,9 +6,20 @@ import Stack from '@mui/material/Stack';
 import SvgIcon from '@mui/material/SvgIcon';
 import Typography from '@mui/material/Typography';
 import { useRouter } from 'src/hooks/use-router';
+import { useCallback } from 'react';
+import { campanhaApi } from '../../api/campanha';
+import toast from 'react-hot-toast';
 
 export const CampanhaPreview = ({ campanha }) => {
   const router = useRouter()
+
+  const iniciarDisparos = useCallback(() => {
+    toast.success('Iniciando disparos!')
+    campanhaApi.iniciarDisparos(campanha.id).then(() => {
+      toast.success('Disparos iniciados com sucesso!')
+      router.push('/')
+    })
+  }, [campanha])
 
   return (
     <Stack spacing={2}>
@@ -71,7 +82,7 @@ export const CampanhaPreview = ({ campanha }) => {
             >
               1 minute ago
             </Typography>
-            <Button size="small" onClick={() => router.push('/')}>
+            <Button size="small" onClick={iniciarDisparos}>
               Iniciar disparos
             </Button>
           </Stack>
