@@ -2,13 +2,21 @@ import { httpApiGerenciamentoDados, isDev, retornaComAtraso } from "../api-defau
 
 class CampanhaApiMock {
     criarNovaCampanha(_) {
-        return retornaComAtraso({})
+        return retornaComAtraso({}, { id: 'mock' })
+    }
+    iniciarDisparos(_) {
+        return retornaComAtraso({
+            executionID: 'execIdMock'
+        })
     }
 }
 
 class CampanhaApi {
     criarNovaCampanha(requestPayload) {
         return httpApiGerenciamentoDados.post('/campanhas', requestPayload)
+    }
+    iniciarDisparos(idCampanha) {
+        return httpApiGerenciamentoDados.post(`/campanhas/disparar/${idCampanha}`)
     }
 }
 

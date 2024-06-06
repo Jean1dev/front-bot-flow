@@ -39,10 +39,15 @@ export function isDev() {
     return process.env.NODE_ENV === 'development'
 }
 
-export function retornaComAtraso(value) {
+export function retornaComAtraso(body, headers = {}) {
     return new Promise((resolve) => {
         setTimeout(() => {
-            resolve({ data: value })
+            resolve({ 
+                data: body,
+                status: 200,
+                statusText: 'OK',
+                headers, 
+            })
         }, 1000)
     })
 }
