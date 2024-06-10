@@ -1,4 +1,5 @@
 import { httpApiGerenciamentoDados, isDev, retornaComAtraso } from "../api-defaults";
+import { campanhaList } from "./data";
 
 class CampanhaApiMock {
     criarNovaCampanha(_) {
@@ -9,6 +10,9 @@ class CampanhaApiMock {
             executionID: 'execIdMock'
         })
     }
+    list(_) {
+        return retornaComAtraso(campanhaList)
+    }
 }
 
 class CampanhaApi {
@@ -17,6 +21,9 @@ class CampanhaApi {
     }
     iniciarDisparos(idCampanha) {
         return httpApiGerenciamentoDados.post(`/campanhas/disparar/${idCampanha}`)
+    }
+    list(filters) {
+        return httpApiGerenciamentoDados.get('/campanhas', { params: filters })
     }
 }
 

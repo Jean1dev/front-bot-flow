@@ -23,7 +23,7 @@ export const useSections = () => {
                     },
                     {
                         title: 'Campanhas',
-                        path: paths.campanhas.criar,
+                        path: paths.campanhas.list,
                         icon: (
                             <SvgIcon fontSize="small">
                                 <MarkerPin01 />
@@ -33,6 +33,10 @@ export const useSections = () => {
                             {
                                 title: 'Criar nova campanha',
                                 path: paths.campanhas.criar
+                            },
+                            {
+                                title: 'Listar campanhas',
+                                path: paths.campanhas.list
                             },
                         ]
                     },

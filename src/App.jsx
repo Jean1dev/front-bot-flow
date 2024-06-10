@@ -1,3 +1,6 @@
+// Remove if simplebar is not used
+import 'simplebar-react/dist/simplebar.min.css';
+
 import { ThemeProvider } from "@mui/system"
 import { SettingsConsumer } from "./contexts/settings/settings-consumer"
 import { SettingsProvider } from "./contexts/settings/settings-provider"
