@@ -4,6 +4,8 @@ import { Outlet } from "react-router-dom";
 import { paths } from "../paths";
 
 const CriarNovaCampanhaPage = lazy(() => import('src/pages/campanhas'))
+const CampanhasListPage = lazy(() => import('src/pages/campanhas/listagem'))
+
 const NumerosPage = lazy(() => import('src/pages/numeros'))
 
 export const routes = [
@@ -22,16 +24,20 @@ export const routes = [
                 element: <h1>wip</h1>
             },
             {
-                path: paths.campanhas.criar,
+                path: paths.campanhas.index,
                 children: [
                     {
                         index: true,
+                        element: <CampanhasListPage />
+                    },
+                    {
+                        path: paths.campanhas.criar,
                         element: <CriarNovaCampanhaPage />
-                    }
+                    },
                 ]
             },
             {
-                path: paths.numeros.list,
+                path: paths.numeros.index,
                 children: [
                     {
                         index: true,
