@@ -9,5 +9,8 @@ export const paths = {
         index: 'campanhas',
         criar: '/campanhas/nova',
         list: '/campanhas'
+    },
+    playground: {
+        index: 'playground',
     }
 }
