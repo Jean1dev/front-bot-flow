@@ -20,6 +20,7 @@
     "@react-keycloak/web": "^3.4.0",
     "@untitled-ui/icons-react": "^0.1.1",
     "axios": "^1.6.2",
+    "emoji-picker-react": "^4.9.4",
     "keycloak-js": "^24.0.4",
     "lodash.isequal": "^4.5.0",
     "papaparse": "^5.4.1",
@@ -29,7 +30,9 @@
     "react-dropzone": "^14.2.3",
     "react-helmet-async": "^2.0.3",
     "react-hot-toast": "^2.4.1",
+    "react-markdown": "^9.0.1",
     "react-router-dom": "^6.17.0",
+    "react-syntax-highlighter": "^15.5.0",
     "reactflow": "^11.10.1",
     "simplebar-react": "^3.2.4"
   },

@@ -8,6 +8,8 @@ const CampanhasListPage = lazy(() => import('src/pages/campanhas/listagem'))
 
 const NumerosPage = lazy(() => import('src/pages/numeros'))
 
+const PlayGroundPage = lazy(() => import('src/pages/playground'))
+
 export const routes = [
     {
         path: '/',
@@ -42,6 +44,15 @@ export const routes = [
                     {
                         index: true,
                         element: <NumerosPage />
+                    }
+                ]
+            },
+            {
+                path: paths.playground.index,
+                children: [
+                    {
+                        index: true,
+                        element: <PlayGroundPage />
                     }
                 ]
             },
