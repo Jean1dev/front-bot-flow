@@ -20,6 +20,10 @@ import { Docs } from './internal/docs';
 import { useState, useCallback, useMemo } from 'react';
 import { cUrlDocs, javaDocs, pythonDocs } from './internal/docs-types';
 import toast from 'react-hot-toast';
+import { playGroundApi } from '../../api/playground';
+import { generateRandomString } from '../../utils';
+import { numerosApi } from '../../api/numeros';
+import { botEngineApi } from '../../api/bot-engine';
 
 const ApiDocsStep = () => {
     const [currentTab, setCurrentTab] = useState('curl');
@@ -110,8 +114,41 @@ export const WhatsappForm = () => {
 
     const onSubmit = (event) => {
         event.preventDefault()
-        setNumeroEnvio('')
-        toast.success('Mensagem enviada com sucesso!')
+        playGroundApi.send({
+            "senderId": "6669869439c5ea3265b4700b",
+            "recipientNumber": numeroEnvio,
+            "message": textMessage
+        }).then(({ data }) => {
+            debugger
+            if (data.success) {
+                setNumeroEnvio('')
+                toast.success(data.message)
+                return
+            }
+
+            if (data.needValidadeNumber) {
+                toast.error(data.message)
+                toast.success('Gerando seu QrCode')
+
+                numerosApi.getById(data.senderId)
+                    .then(response => {
+                        const result = response.data;
+                        const { whatsappInternalId } = result
+
+                        botEngineApi.generateNewQrCode(whatsappInternalId)
+                            .then(response => {
+                                const html = response.data;
+                                const newTab = window.open('', '_blank');
+                                newTab.document.write(html);
+                            })
+                    })
+
+                return
+            }
+
+            toast.error(data.message)
+
+        })
     }
 
     return (
