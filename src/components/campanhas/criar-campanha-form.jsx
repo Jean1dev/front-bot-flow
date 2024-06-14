@@ -56,8 +56,6 @@ export const CriarNovaCampanhaForm = () => {
 
   const [campanha, setCampanha] = useState({});
   const [numerosParaDisparo, setnumerosParaDisparo] = useState([])
-  const [mensagemDisparo, setMensagemDisparo] = useState({})
-
 
   const [activeStep, setActiveStep] = useState(0);
   const [isComplete, setIsComplete] = useState(false);
@@ -97,7 +95,7 @@ export const CriarNovaCampanhaForm = () => {
     }).finally(() => {
       setLoading(false)
     })
-  }, [campanha, numerosParaDisparo, mensagemDisparo]);
+  }, [campanha, numerosParaDisparo]);
 
   const steps = useMemo(() => {
     return [
@@ -137,7 +135,6 @@ export const CriarNovaCampanhaForm = () => {
           <MensagemDisparoStep
             onBack={handleBack}
             onFinish={handleComplete}
-            setMensagemDisparo={setMensagemDisparo}
           />
         ),
       },
