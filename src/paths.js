@@ -12,5 +12,8 @@ export const paths = {
     },
     playground: {
         index: 'playground',
+    },
+    botFlow: {
+        index: 'botflow',
     }
 }

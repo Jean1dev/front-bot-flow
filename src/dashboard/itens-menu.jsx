@@ -4,8 +4,9 @@ import { SvgIcon } from "@mui/material"
 import { 
     HomeSmile,
     Phone,
-    MarkerPin01
+    MarkerPin01,
 } from "@untitled-ui/icons-react"
+import { AdminPanelSettings } from "@mui/icons-material"
 
 export const useSections = () => {
     return useMemo(() => {
@@ -52,6 +53,25 @@ export const useSections = () => {
                             {
                                 title: 'Consultar Numeros',
                                 path: paths.numeros.list
+                            },
+                        ]
+                    },
+                    {
+                        title: 'Menu Admin',
+                        path: '/a',
+                        icon: (
+                            <SvgIcon fontSize="small">
+                                <AdminPanelSettings />
+                            </SvgIcon>
+                        ),
+                        items: [
+                            {
+                                title: 'Flow',
+                                path: paths.botFlow.index
+                            },
+                            {
+                                title: 'PlayGround',
+                                path: paths.playground.index
                             },
                         ]
                     },

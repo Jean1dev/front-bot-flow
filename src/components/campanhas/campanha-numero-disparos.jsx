@@ -13,7 +13,7 @@ import { FileDropzone } from '../file-dropzone';
 import Papa from "papaparse";
 
 export const CampanhaNumeroDisparos = (props) => {
-    const { onBack, onNext, ...other } = props;
+    const { onBack, onNext, setNumeros, ...other } = props;
     const [alert, setAlert] = useState(null);
     const [tag, setTag] = useState('');
     const [tags, setTags] = useState([]);
@@ -82,8 +82,9 @@ export const CampanhaNumeroDisparos = (props) => {
     }, []);
 
     const finish = useCallback(() => {
-        onNext(tags)
-    }, [tags, onNext]);
+        setNumeros(tags)
+        onNext()
+    }, [tags, onNext, setNumeros]);
 
     return (
         <Stack
@@ -169,7 +170,7 @@ export const CampanhaNumeroDisparos = (props) => {
                     onClick={finish}
                     variant="contained"
                 >
-                    Criar campanha
+                    Continue
                 </Button>
                 <Button
                     color="inherit"

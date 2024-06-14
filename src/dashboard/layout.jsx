@@ -1,7 +1,7 @@
 
 import { useSettings } from 'src/hooks/use-settings';
 
-import { useSections } from './config';
+import { useSections } from './itens-menu';
 import { HorizontalLayout } from './horizontal-layout';
 import { VerticalLayout } from './vertical-layout';
 
