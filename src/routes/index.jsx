@@ -10,6 +10,8 @@ const NumerosPage = lazy(() => import('src/pages/numeros'))
 
 const PlayGroundPage = lazy(() => import('src/pages/playground'))
 
+const BotFlowPage = lazy(() => import('src/pages/bot-flow'))
+
 export const routes = [
     {
         path: '/',
@@ -53,6 +55,15 @@ export const routes = [
                     {
                         index: true,
                         element: <PlayGroundPage />
+                    }
+                ]
+            },
+            {
+                path: paths.botFlow.index,
+                children: [
+                    {
+                        index: true,
+                        element: <BotFlowPage />
                     }
                 ]
             },

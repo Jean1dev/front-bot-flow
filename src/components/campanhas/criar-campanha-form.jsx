@@ -16,6 +16,7 @@ import { CampanhaNumeroDisparos } from './campanha-numero-disparos';
 import { campanhaApi } from '../../api/campanha';
 import toast from 'react-hot-toast';
 import Loading from '../loading';
+import MensagemDisparoStep from './mensagem-disparo-step';
 
 const StepIcon = (props) => {
   const { active, completed, icon } = props;
@@ -52,7 +53,10 @@ StepIcon.propTypes = {
 };
 
 export const CriarNovaCampanhaForm = () => {
+
   const [campanha, setCampanha] = useState({});
+  const [numerosParaDisparo, setnumerosParaDisparo] = useState([])
+
   const [activeStep, setActiveStep] = useState(0);
   const [isComplete, setIsComplete] = useState(false);
   const [loading, setLoading] = useState(false)
@@ -65,13 +69,19 @@ export const CriarNovaCampanhaForm = () => {
     setActiveStep((prevState) => prevState - 1);
   }, []);
 
-  const handleComplete = useCallback((numerosParaDisparo) => {
+  const handleComplete = useCallback(({
+    text,
+    flow
+  }) => {
     setLoading(true)
+    
     campanhaApi.criarNovaCampanha({
       titulo: campanha.title,
       numeroIdRef: campanha.number,
       categoria: campanha.category || 'AVISO',
-      numerosParaDisparo
+      numerosParaDisparo,
+      messageDisparo: text,
+      flowIdRef: flow
     }).then((response) => {
       const idCampanha = response.headers.id
 
@@ -85,7 +95,7 @@ export const CriarNovaCampanhaForm = () => {
     }).finally(() => {
       setLoading(false)
     })
-  }, [campanha]);
+  }, [campanha, numerosParaDisparo]);
 
   const steps = useMemo(() => {
     return [
@@ -114,7 +124,17 @@ export const CriarNovaCampanhaForm = () => {
         content: (
           <CampanhaNumeroDisparos
             onBack={handleBack}
-            onNext={handleComplete}
+            onNext={handleNext}
+            setNumeros={setnumerosParaDisparo}
+          />
+        ),
+      },
+      {
+        label: 'Mensagem de disparo',
+        content: (
+          <MensagemDisparoStep
+            onBack={handleBack}
+            onFinish={handleComplete}
           />
         ),
       },
