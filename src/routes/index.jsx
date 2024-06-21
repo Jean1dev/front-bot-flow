@@ -12,6 +12,8 @@ const PlayGroundPage = lazy(() => import('src/pages/playground'))
 
 const BotFlowPage = lazy(() => import('src/pages/bot-flow'))
 
+const TelemetriaPge = lazy(() => import('src/pages/telemetria'))
+
 export const routes = [
     {
         path: '/',
@@ -64,6 +66,15 @@ export const routes = [
                     {
                         index: true,
                         element: <BotFlowPage />
+                    }
+                ]
+            },
+            {
+                path: paths.telemetria.index,
+                children: [
+                    {
+                        index: true,
+                        element: <TelemetriaPge />
                     }
                 ]
             },
