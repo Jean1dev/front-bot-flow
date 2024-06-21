@@ -15,5 +15,8 @@ export const paths = {
     },
     botFlow: {
         index: 'botflow',
+    },
+    telemetria: {
+        index: 'telemetria',
     }
 }

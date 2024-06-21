@@ -5,6 +5,7 @@ import {
     HomeSmile,
     Phone,
     MarkerPin01,
+    Telescope
 } from "@untitled-ui/icons-react"
 import { AdminPanelSettings } from "@mui/icons-material"
 
@@ -57,6 +58,21 @@ export const useSections = () => {
                         ]
                     },
                     {
+                        title: 'Telemetria',
+                        path: paths.telemetria.index,
+                        icon: (
+                            <SvgIcon fontSize="small">
+                                <Telescope />
+                            </SvgIcon>
+                        ),
+                        items: [
+                            {
+                                title: 'Logs',
+                                path: paths.telemetria.index
+                            },
+                        ]
+                    },
+                    {
                         title: 'Menu Admin',
                         path: '/a',
                         icon: (
@@ -73,6 +89,7 @@ export const useSections = () => {
                                 title: 'PlayGround',
                                 path: paths.playground.index
                             },
+                            
                         ]
                     },
                 ]

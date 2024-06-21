@@ -6,7 +6,8 @@ const defaulUser = {
     email: 'XXXXXXXXXXXXX',
     name: 'test',
     sub: 'test',
-    preferred_username: 'XXXX'
+    preferred_username: 'XXXX',
+    token: 'XXXX'
 }
 
 function mockUser() {
@@ -25,6 +26,7 @@ function kcServer() {
             name: result.name,
             sub: result.sub,
             preferred_username: result.preferred_username,
+            token: keycloak.token
         })
     }
 
