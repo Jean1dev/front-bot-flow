@@ -1,3 +1,4 @@
+import toast from 'react-hot-toast';
 import PropTypes from 'prop-types';
 import Edit02Icon from '@untitled-ui/icons-react/build/esm/Edit02';
 import Button from '@mui/material/Button';
@@ -10,6 +11,10 @@ import { SeverityPill } from 'src/components/severity-pill';
 import { PropertyList } from 'src/components/property-list';
 import { PropertyListItem } from 'src/components/property-list-item';
 import { StatusNumeroColorMap } from '../../constants/statusMap';
+import { useCallback } from 'react';
+import { generateRandomString } from '../../utils';
+import { botEngineApi } from '../../api/bot-engine';
+import { numerosApi } from '../../api/numeros';
 
 export const NumeroDetalhes = (props) => {
   const { onEdit, onReject, number, infoComplementares } = props;
@@ -19,6 +24,23 @@ export const NumeroDetalhes = (props) => {
   const createdAt = number.createdAt
   const statusColor = StatusNumeroColorMap[number.status];
   const totalAmount = number.totalSpent
+
+  const onRequestValidate = useCallback(() => {
+    const randomCode = generateRandomString(15)
+    toast.loading('Gerando seu QrCode', { duration: 2000 })
+
+    botEngineApi.generateNewQrCode(randomCode)
+      .then(response => {
+        numerosApi.addWhatsappId(number.id, randomCode)
+          .then(() => {
+            toast.success('Whatsapp id adicionado')
+            const html = response.data;
+            const newTab = window.open('', '_blank');
+            newTab.document.write(html);
+          })
+
+      })
+  }, [number])
 
   return (
     <Stack spacing={6}>
@@ -130,6 +152,15 @@ export const NumeroDetalhes = (props) => {
           justifyContent="flex-end"
           spacing={2}
         >
+          <Button
+            color="info"
+            onClick={onRequestValidate}
+            size="small"
+            variant="outlined"
+          >
+            Validar novamente
+          </Button>
+
           <Button
             color="error"
             onClick={onReject}
