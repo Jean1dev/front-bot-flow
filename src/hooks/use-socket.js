@@ -30,7 +30,7 @@ export default function useSocket(callback = (...args) => { }) {
         }
 
         const url = sanitizeUrl()
-        return new WebSocket(`${url}/ws?auth=${user.sub}`)
+        return new WebSocket(`${url}ws?auth=${user.sub}`)
     }, [user, dev])
 
     useEffect(() => {
