@@ -13,6 +13,12 @@ function mockSocket() {
     }
 }
 
+function sanitizeUrl() {
+    const parsedUrl = new URL(BaseUrlApiGerenciamentoDados)
+    parsedUrl.protocol = parsedUrl.protocol.replace('https', 'wss')
+    return parsedUrl.toString()
+}
+
 export default function useSocket(callback = (...args) => { }) {
     const { user } = useUserAuth()
     const dev = isDev()
@@ -23,12 +29,12 @@ export default function useSocket(callback = (...args) => { }) {
             return mockSocket()
         }
 
-        return new WebSocket(`wss://${BaseUrlApiGerenciamentoDados}/ws?auth=${user.sub}`)
+        const url = sanitizeUrl()
+        return new WebSocket(`${url}/ws?auth=${user.sub}`)
     }, [user, dev])
 
     useEffect(() => {
         socket.onopen = () => {
-            console.log('WebSocket connected')
             setConnected(true)
         }
 
