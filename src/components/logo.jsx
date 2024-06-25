@@ -1,10 +1,10 @@
+import Gravatar from 'react-gravatar';
+import { useUserAuth } from 'src/hooks/use-user-auth';
+
 const Logo = (props) => {
+    const { user } = useUserAuth();
     return (
-        <img
-            alt="Logo"
-            src="/static/logo.png"
-            {...props}
-        />
+        <Gravatar email={user?.email} size={31} {...props}/>
     );
 };
 

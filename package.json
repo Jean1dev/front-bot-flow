@@ -29,6 +29,7 @@
     "react-console-emulator": "^5.0.2",
     "react-dom": "^18.2.0",
     "react-dropzone": "^14.2.3",
+    "react-gravatar": "^2.6.3",
     "react-helmet-async": "^2.0.3",
     "react-hot-toast": "^2.4.1",
     "react-markdown": "^9.0.1",

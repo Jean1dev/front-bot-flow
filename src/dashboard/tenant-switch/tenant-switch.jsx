@@ -6,14 +6,16 @@ import Stack from '@mui/material/Stack';
 import SvgIcon from '@mui/material/SvgIcon';
 import Typography from '@mui/material/Typography';
 
-import { usePopover } from '../../hooks/use-popover';
+import { usePopover } from 'src/hooks/use-popover';
 
 import { TenantPopover } from './tenant-popover';
+import { useUserAuth } from 'src/hooks/use-user-auth';
 
-const tenants = ['Devias', 'Acme Corp'];
+const tenants = ['Producao', 'Homologacao'];
 
 export const TenantSwitch = (props) => {
   const popover = usePopover();
+  const { user } = useUserAuth()
 
   return (
     <>
@@ -27,7 +29,7 @@ export const TenantSwitch = (props) => {
             color="inherit"
             variant="h6"
           >
-            Devias
+            {user.name}
           </Typography>
           <Typography
             color="neutral.400"
