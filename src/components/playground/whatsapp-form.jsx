@@ -10,6 +10,7 @@ import CardContent from '@mui/material/CardContent';
 import CardHeader from '@mui/material/CardHeader';
 import Divider from '@mui/material/Divider';
 import Tab from '@mui/material/Tab';
+import MenuItem from '@mui/material/MenuItem';
 import Tabs from '@mui/material/Tabs';
 import OutlinedInput from '@mui/material/OutlinedInput';
 import useMediaQuery from '@mui/material/useMediaQuery';
@@ -17,13 +18,12 @@ import EmojiPicker from 'emoji-picker-react';
 import { AttachEmail, EmojiEmotions, Image } from '@mui/icons-material';
 
 import { Docs } from './internal/docs';
-import { useState, useCallback, useMemo } from 'react';
+import { useState, useCallback, useMemo, useEffect } from 'react';
 import { cUrlDocs, javaDocs, pythonDocs } from './internal/docs-types';
 import toast from 'react-hot-toast';
-import { playGroundApi } from '../../api/playground';
-import { generateRandomString } from '../../utils';
-import { numerosApi } from '../../api/numeros';
-import { botEngineApi } from '../../api/bot-engine';
+import { playGroundApi } from 'src/api/playground';
+import { numerosApi } from 'src/api/numeros';
+import { botEngineApi } from 'src/api/bot-engine';
 
 const ApiDocsStep = () => {
     const [currentTab, setCurrentTab] = useState('curl');
@@ -100,6 +100,8 @@ export const WhatsappForm = () => {
     const [openEmojiPicker, setOpenEmojiPicker] = useState(false);
     const [textMessage, setTextMessage] = useState('');
     const [numeroEnvio, setNumeroEnvio] = useState('');
+    const [senderId, setSenderId] = useState('');
+    const [numerosValidados, setNumerosValidados] = useState([])
     const smUp = useMediaQuery((theme) => theme.breakpoints.up('sm'));
 
     const handleReaction = (emojiObject) => {
@@ -114,12 +116,13 @@ export const WhatsappForm = () => {
 
     const onSubmit = (event) => {
         event.preventDefault()
+
         playGroundApi.send({
-            "senderId": "6669869439c5ea3265b4700b",
+            "senderId": senderId,
             "recipientNumber": numeroEnvio,
             "message": textMessage
         }).then(({ data }) => {
-            debugger
+
             if (data.success) {
                 setNumeroEnvio('')
                 toast.success(data.message)
@@ -151,10 +154,59 @@ export const WhatsappForm = () => {
         })
     }
 
+    useEffect(() => {
+        numerosApi.getNumerosValidado()
+            .then(({ data }) => {
+                setNumerosValidados(data.map(item => ({
+                    value: item.id,
+                    label: item.descricao
+                })))
+            })
+    }, [])
+
     return (
         <Box sx={{ p: 3 }}>
             <ApiDocsStep />
             <form onSubmit={onSubmit}>
+
+                <Typography
+                    sx={{
+                        mt: 3,
+                        mb: 2,
+                    }}
+                    variant="subtitle2"
+                >
+                    Selecione um numero valido para disparar a mensagem de WhatsApp
+                </Typography>
+                <TextField
+                    fullWidth
+                    value={senderId}
+                    label="Numero para disparo"
+                    name='senderId'
+                    onChange={(event) => setSenderId(event.target.value)}
+                    select
+                >
+                    {numerosValidados.map((option) => (
+                        <MenuItem
+                            key={option.value}
+                            value={option.value}
+                        >
+                            {option.label}
+                        </MenuItem>
+                    ))}
+                </TextField>
+
+
+                <Typography
+                    sx={{
+                        mt: 3,
+                        mb: 2,
+                    }}
+                    variant="subtitle2"
+                >
+                    Informe o numero para enviar a mensagem
+                </Typography>
+
                 <TextField
                     fullWidth
                     label="Numero para enviar"

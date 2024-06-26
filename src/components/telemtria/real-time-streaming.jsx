@@ -1,19 +1,11 @@
-import { useState } from 'react'
+import { useMemo, useState } from 'react'
 import { createRef, useCallback, useEffect } from "react"
 import Terminal from 'react-console-emulator'
-import useSocket from "../../hooks/use-socket"
-
-const commands = {
-    echo: {
-        description: 'Echo a passed string.',
-        usage: 'echo <string>',
-        fn: (...args) => args.join(' ')
-    }
-}
+import useSocket from "src/hooks/use-socket"
 
 export const RealTimeStreaming = () => {
     const terminalRef = createRef()
-    const [history, setHistory] = useState('Buscando dados')
+    const [history, setHistory] = useState('digite `help` para ver os comandos')
 
     const pushToStdout = useCallback((message) => {
         if (terminalRef.current) {
@@ -32,14 +24,34 @@ export const RealTimeStreaming = () => {
         }
     })
 
-    useEffect(() => {
+    const sendMessageSocket = useCallback(() => {
         if (connected && socket.readyState > 0) {
+            console.log('buscando dados')
             socket.send(JSON.stringify({
                 type: 'SUBSCRIBE_NUMBERS',
                 payload: {}
             }))
+        } else {
+            console.log('Socket is not connected or not ready.')
+            pushToStdout(`Socket is not connected or not ready. connected ${connected} readyState ${socket.readyState}`)
         }
-    }, [connected, socket])
+
+    }, [connected, socket, pushToStdout])
+
+    const commands = useMemo(() => {
+        return {
+            echo: {
+                description: 'Echo a passed string.',
+                usage: 'echo <string>',
+                fn: (...args) => args.join(' ')
+            },
+            find: {
+                description: 'Busca os registros via socker',
+                usage: 'find <string>',
+                fn: () => sendMessageSocket()
+            }
+        }
+    }, [sendMessageSocket])
 
     useEffect(() => {
         pushToStdout(history)

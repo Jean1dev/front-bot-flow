@@ -20,6 +20,9 @@ class NumerosAPiMock {
     atualizarNumero(_) {
         return retornaComAtraso({})
     }
+    getNumerosValidado() {
+        return retornaComAtraso(numerosSimplificados)
+    }
 }
 
 class NumerosApi {
@@ -28,6 +31,9 @@ class NumerosApi {
     }
     getNumerosSimplificado() {
         return httpApiGerenciamentoDados.get('/numeros/simplificado');
+    }
+    getNumerosValidado() {
+        return httpApiGerenciamentoDados.get('/numeros/simplificado/validado');
     }
     getById(id) {
         return httpApiGerenciamentoDados.get(`/numeros/${id}`);
