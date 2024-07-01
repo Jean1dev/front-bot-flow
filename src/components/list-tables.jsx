@@ -14,12 +14,13 @@ import TablePagination from '@mui/material/TablePagination';
 import TableRow from '@mui/material/TableRow';
 
 import { Scrollbar } from 'src/components/scrollbar';
+import { Trash01 } from '@untitled-ui/icons-react';
 
 export const DefaultListTable = (props) => {
     const {
         count = 0, items = [], onDeselectAll, onDeselectOne, onPageChange = () => {
         }, onRowsPerPageChange, onSelectAll, onSelectOne, page = 0, rowsPerPage = 0, selected = [],
-        cellName = [], editAction = null
+        cellName = [], editAction = null, onDeleteClick = () => {}
     } = props;
 
     const selectedSome = (selected.length > 0) && (selected.length < items.length);
@@ -140,14 +141,13 @@ export const DefaultListTable = (props) => {
                                                 </IconButton>
                                             )
                                         }
-                                        {/* <IconButton
-                                            component={RouterLink}
-                                            href={paths.fornecedor.cadastro}
+                                        <IconButton
+                                            onClick={() => onDeleteClick(item.id)}
                                         >
                                             <SvgIcon>
-                                                <ArrowRightIcon />
+                                                <Trash01 />
                                             </SvgIcon>
-                                        </IconButton> */}
+                                        </IconButton>
                                     </TableCell>
                                 </TableRow>
                             );
@@ -182,5 +182,6 @@ DefaultListTable.propTypes = {
     rowsPerPage: PropTypes.number,
     selected: PropTypes.array,
     cellName: PropTypes.array,
-    editAction: PropTypes.func
+    editAction: PropTypes.func,
+    onDeleteClick: PropTypes.func
 };

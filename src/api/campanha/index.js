@@ -13,6 +13,9 @@ class CampanhaApiMock {
     list(_) {
         return retornaComAtraso(campanhaList)
     }
+    removerCampanha(_) {
+        return retornaComAtraso({})
+    }
 }
 
 class CampanhaApi {
@@ -24,6 +27,9 @@ class CampanhaApi {
     }
     list(filters) {
         return httpApiGerenciamentoDados.get('/campanhas', { params: filters })
+    }
+    removerCampanha(idCampanha) {
+        return httpApiGerenciamentoDados.delete(`/campanhas/${idCampanha}`)
     }
 }
 

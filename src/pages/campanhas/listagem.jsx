@@ -16,6 +16,7 @@ import { Plus } from '@untitled-ui/icons-react';
 import { RouterLink } from 'src/components/router-link';
 import { DefaultListTable } from 'src/components/list-tables';
 import { campanhaApi } from '../../api/campanha';
+import toast from 'react-hot-toast';
 
 const CampanhasListView = () => {
     const [items, setItems] = useState(null);
@@ -41,6 +42,19 @@ const CampanhasListView = () => {
     const onPageChange = useCallback((_, it) => {
         setLoading(true)
         setPage(it)
+    }, [])
+
+    const deleteCampanha = useCallback((id) => {
+        setItems((prevValues) => ({
+            ...prevValues,
+            content: prevValues.content.filter((item) => item.id !== id),
+        }))
+
+        campanhaApi.removerCampanha(id).then(() => {
+            toast.success('Campanha removida com sucesso')
+        }).catch(() => {
+            toast.error('Erro ao remover campanha')
+        })
     }, [])
 
     if (loading)
@@ -136,6 +150,7 @@ const CampanhasListView = () => {
                                 // selected={customersSelection.selected}
                                 cellName={['titulo', 'status', 'numero']}
                                 // editAction={editAction}
+                                onDeleteClick={deleteCampanha}
                             />
                         </Card>
                     </Stack>
