@@ -56,10 +56,18 @@ export const CriarNovaCampanhaForm = () => {
 
   const [campanha, setCampanha] = useState({});
   const [numerosParaDisparo, setnumerosParaDisparo] = useState([])
+  const [files, setFiles] = useState([])
 
   const [activeStep, setActiveStep] = useState(0);
   const [isComplete, setIsComplete] = useState(false);
   const [loading, setLoading] = useState(false)
+
+  const addFiles = useCallback((newFile) => {
+    setFiles((prevState) => [
+      ...prevState,
+      newFile
+    ])
+  }, [])
 
   const handleNext = useCallback(() => {
     setActiveStep((prevState) => prevState + 1);
@@ -81,7 +89,8 @@ export const CriarNovaCampanhaForm = () => {
       categoria: campanha.category || 'AVISO',
       numerosParaDisparo,
       messageDisparo: text,
-      flowIdRef: flow
+      flowIdRef: flow,
+      arquivosUrls: files
     }).then((response) => {
       const idCampanha = response.headers.id
 
@@ -95,7 +104,7 @@ export const CriarNovaCampanhaForm = () => {
     }).finally(() => {
       setLoading(false)
     })
-  }, [campanha, numerosParaDisparo]);
+  }, [campanha, numerosParaDisparo, files]);
 
   const steps = useMemo(() => {
     return [
@@ -125,6 +134,7 @@ export const CriarNovaCampanhaForm = () => {
           <CampanhaNumeroDisparos
             onBack={handleBack}
             onNext={handleNext}
+            addFiles={addFiles}
             setNumeros={setnumerosParaDisparo}
           />
         ),

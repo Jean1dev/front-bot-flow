@@ -16,6 +16,9 @@ class CampanhaApiMock {
     removerCampanha(_) {
         return retornaComAtraso({})
     }
+    buscarArquivos(_) {
+        return retornaComAtraso(['https://teletime.com.br/wp-content/uploads/2021/06/Itau_berrini_6-scaled.jpeg'])
+    }
 }
 
 class CampanhaApi {
@@ -30,6 +33,9 @@ class CampanhaApi {
     }
     removerCampanha(idCampanha) {
         return httpApiGerenciamentoDados.delete(`/campanhas/${idCampanha}`)
+    }
+    buscarArquivos(id) {
+        return httpApiGerenciamentoDados.get(`/campanhas/${id}/arquivos`)
     }
 }
 

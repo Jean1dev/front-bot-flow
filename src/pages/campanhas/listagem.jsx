@@ -18,6 +18,20 @@ import { DefaultListTable } from 'src/components/list-tables';
 import { campanhaApi } from '../../api/campanha';
 import toast from 'react-hot-toast';
 
+function downloadContent(contentUrl) {
+    fetch(contentUrl)
+        .then(response => response.blob())
+        .then(blob => {
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'arquivo.csv';
+            document.body.appendChild(a);
+            a.click();
+            a.remove();
+        });
+}
+
 const CampanhasListView = () => {
     const [items, setItems] = useState(null);
     const [loading, setLoading] = useState(true);
@@ -45,16 +59,31 @@ const CampanhasListView = () => {
     }, [])
 
     const deleteCampanha = useCallback((id) => {
-        setItems((prevValues) => ({
-            ...prevValues,
-            content: prevValues.content.filter((item) => item.id !== id),
-        }))
+        toast.loading('Baixando os arquivos que estavam salvos nela', { duration: 2000 })
 
-        campanhaApi.removerCampanha(id).then(() => {
-            toast.success('Campanha removida com sucesso')
-        }).catch(() => {
-            toast.error('Erro ao remover campanha')
-        })
+        campanhaApi.buscarArquivos(id)
+            .then((response) => {
+
+                const files = response.data
+                if (files.length > 0) {
+                    files.forEach((file) => {
+                        downloadContent(file.contentUrl)
+                    })
+                } else {
+                    toast.success('Nenhum arquivo foi encontrado')
+                }
+
+                setItems((prevValues) => ({
+                    ...prevValues,
+                    content: prevValues.content.filter((item) => item.id !== id),
+                }))
+
+                campanhaApi.removerCampanha(id).then(() => {
+                    toast.success('Campanha removida com sucesso')
+                }).catch(() => {
+                    toast.error('Erro ao remover campanha')
+                })
+            })
     }, [])
 
     if (loading)

@@ -1,5 +1,5 @@
 import axios from "axios"
-import { BaseUrlApiEngine, BaseUrlApiGerenciamentoDados } from "../constants"
+import { BaseUrlApiEngine, BaseUrlApiGerenciamentoDados, BaseUrlStorageService } from "../constants"
 import { toastError } from "../utils/toasts-utils"
 
 const defaultSuccess = (response) => {
@@ -50,6 +50,36 @@ export function retornaComAtraso(body, headers = {}) {
             })
         }, 1000)
     })
+}
+
+export async function uploadResource(resourceFile) {
+    const URL_STORAGE_SERVER = BaseUrlStorageService
+    const devMode = isDev()
+    const url = devMode
+        ? `${URL_STORAGE_SERVER}/v1/local`
+        : `${URL_STORAGE_SERVER}/v1/s3`
+
+    const form = new FormData();
+    form.append("file", resourceFile);
+    const BUCKET_STORAGE = 'binnoroteirizacao'
+
+    const options = {
+        method: 'POST',
+        url,
+        params: { bucket: BUCKET_STORAGE },
+        headers: {
+            'Content-Type': 'multipart/form-data',
+            'content-type': 'multipart/form-data; boundary=---011000010111000001101001'
+        },
+        data: form
+    };
+
+    if (devMode) {
+        return 'https://teletime.com.br/wp-content/uploads/2021/06/Itau_berrini_6-scaled.jpeg'
+    }
+
+    const response = await axios.request(options)
+    return response.data
 }
 
 export const httpApiGerenciamentoDados = axios.create({
