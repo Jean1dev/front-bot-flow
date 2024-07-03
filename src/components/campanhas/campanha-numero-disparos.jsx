@@ -11,9 +11,11 @@ import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import { FileDropzone } from '../file-dropzone';
 import Papa from "papaparse";
+import { uploadResource } from 'src/api/api-defaults';
+import toast from 'react-hot-toast';
 
 export const CampanhaNumeroDisparos = (props) => {
-    const { onBack, onNext, setNumeros, ...other } = props;
+    const { onBack, onNext, setNumeros, addFiles, ...other } = props;
     const [alert, setAlert] = useState(null);
     const [tag, setTag] = useState('');
     const [tags, setTags] = useState([]);
@@ -45,7 +47,7 @@ export const CampanhaNumeroDisparos = (props) => {
                 setFiles((prevFiles) => {
                     return [...prevFiles, ...newFiles];
                 });
-                
+
                 setTags((prevState) => {
                     return [...prevState, ...valuesArray.map(arrayInterno => arrayInterno[1])];
                 })
@@ -85,6 +87,20 @@ export const CampanhaNumeroDisparos = (props) => {
         setNumeros(tags)
         onNext()
     }, [tags, onNext, setNumeros]);
+
+    const onUpload = useCallback(() => {
+        files.forEach(resource => {
+            uploadResource(resource)
+                .then((fileUrl) => {
+                    toast.success(`${resource.name} uploaded`)
+                    addFiles(fileUrl)
+                })
+                .catch((error) => {
+                    console.log(error)
+                    toast.error(`${resource.name} uploaded failed`)
+                })
+        })
+    }, [files]);
 
     return (
         <Stack
@@ -138,7 +154,7 @@ export const CampanhaNumeroDisparos = (props) => {
                     onDrop={handleDrop}
                     onRemove={handleRemove}
                     onRemoveAll={handleRemoveAll}
-                    onUpload={() => { console.log('onUpload') }}
+                    onUpload={onUpload}
                 />
                 <Stack
                     alignItems="center"

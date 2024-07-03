@@ -1,98 +1,78 @@
 ---
 title: 'Development'
-description: 'Learn how to preview changes locally'
+description: 'Aprenda como visualizar as alterações localmente'
 ---
 
 <Info>
-  **Prerequisite** You should have installed Node.js (version 18.10.0 or
-  higher).
+  **Prerequisite** Você precisa ter Node.js (versão 18.10.0 ou superior), Java versão 21 ou superior e o Docker.
 </Info>
 
-Step 1. Install Mintlify on your OS:
+Passo 1. Baixe o projeto do front-end, instale as dependências e rode o projeto.
 
 <CodeGroup>
 
 ```bash npm
-npm i -g mintlify
+npm i
 ```
 
-```bash yarn
-yarn global add mintlify
+```bash npm
+npm run dev
 ```
-
 </CodeGroup>
 
-Step 2. Go to the docs are located (where you can find `mint.json`) and run the following command:
+
+O servidor do front-end irá subir na porta 3000, as configurações de variáveis de ambiente ficam no arquivo .env na raiz do projeto, use o arquivo .env.example como base.
+
+Passo 2. Iniciar o backend
+
+O backend funciona com perfis de desenvolvimento, o perfil dev utiliza as dependências do KeyCloak para autenticação e MongoDB para salvar os dados.
+
+Para utilizar uma versão mais simplificada, recomendo rodar o Java com o perfil sandbox. Então, após ter compilado o JAR, rode com o comando:
 
 ```bash
-mintlify dev
+--spring.profiles.active=sandbox
 ```
 
-The documentation website is now available at `http://localhost:3000`.
+O backend irá subir na porta 8080 e estará disponível em `http://localhost:8080`.
 
-### Custom Ports
+### Dependencias em containers
 
-Mintlify uses port 3000 by default. You can use the `--port` flag to customize the port Mintlify runs on. For example, use this command to run in port 3333:
+Para subir todas as dependências necessárias para o backend, utilize o arquivo docker-compose.yml na raiz do projeto.
 
 ```bash
-mintlify dev --port 3333
+sudo docker-compose up -d
 ```
 
-You will see an error like this if you try to run Mintlify in a port that's already taken:
+Após esses passos, você já estará apto para fazer suas próprias alterações locais.
+
+## Whatsapp Engine (motor)
+
+O módulo do software que faz as regras de conversação com o WhatsApp é um módulo privado. Para facilitar esse processo, o backend conversa com ele somente através de interfaces, então para rodar localmente você precisa implementar essas interfaces.
+
+Essa interface esta em 
 
 ```md
-Error: listen EADDRINUSE: address already in use :::3000
+src/main/java/com/flowbot/application/http/BotBuilderApi.java
 ```
 
-## Mintlify Versions
-
-Each CLI is linked to a specific version of Mintlify. Please update the CLI if your local website looks different than production.
-
-<CodeGroup>
-
-```bash npm
-npm i -g mintlify@latest
-```
-
-```bash yarn
-yarn global upgrade mintlify
-```
-
-</CodeGroup>
-
-## Deployment
+## WhatsappAPI
 
 <Tip>
-  Unlimited editors available under the [Startup
-  Plan](https://mintlify.com/pricing)
+  Para você aprender sobre a API do WhatsApp, tenho uma playlist completa no YouTube [Playlist no Youtube](https://youtube.com/playlist?list=PLl-Um_Xc4KnOWq4oJng_uDaYzV04Ngx-J&feature=shared)
+  
 </Tip>
 
-You should see the following if the deploy successfully went through:
 
-<Frame>
-  <img src="/images/checks-passed.png" style={{ borderRadius: '0.5rem' }} />
-</Frame>
+## Contribuir para a documentacao
 
-## Troubleshooting
+Dentro do projeto do front-end existe a pasta docs/ onde fica toda essa documentação. Utilizo da tecnologia Minlify para sua construção.
+`https://mintlify.com/docs/quickstart`
 
-Here's how to solve some common problems when working with the CLI.
+## Gestão de arquivos
 
-<AccordionGroup>
-  <Accordion title="Mintlify is not loading">
-    Update to Node v18. Run `mintlify install` and try again.
-  </Accordion>
-  <Accordion title="No such file or directory on Windows">
-Go to the `C:/Users/Username/.mintlify/` directory and remove the `mint`
-folder. Then Open the Git Bash in this location and run `git clone
-https://github.com/mintlify/mint.git`.
+Atualmente, esse projeto utiliza um serviço de armazenamento de arquivos próprio que é gratuito.
+ Caso você tenha interesse em usar o seu próprio, basta alterar a função que faz o upload de arquivo no front-end, localizada em.
 
-Repeat step 3.
-
-  </Accordion>
-  <Accordion title="Getting an unknown error">
-    Try navigating to the root of your device and delete the ~/.mintlify folder.
-    Then run `mintlify dev` again.
-  </Accordion>
-</AccordionGroup>
-
-Curious about what changed in a CLI version? [Check out the CLI changelog.](/changelog/command-line)
+```md
+src/api/api-defaults.js  -> uploadResource(resourceFile)
+```
