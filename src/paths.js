@@ -1,6 +1,10 @@
 export const paths = {
     index: '/',
-    typebot: 'http://161.35.238.7:8080/',
+    typebot: {
+        index: 'typebot',
+        manager: 'http://161.35.238.7:8080/',
+        list: '/typebots'
+    },
     numeros: {
         index: 'numeros',
         list: '/numeros',

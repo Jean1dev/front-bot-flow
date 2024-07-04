@@ -226,7 +226,7 @@ export const SideNav = (props) => {
             <Button
               component="a"
               fullWidth
-              href={paths.typebot}
+              href={paths.typebot.manager}
               startIcon={(
                 <SvgIcon>
                   <File04Icon />
@@ -235,7 +235,7 @@ export const SideNav = (props) => {
               target="_blank"
               variant="contained"
             >
-              Meus TypeBots
+              Gerenciar meus TypeBots
             </Button>
           </Box>
         </Stack>

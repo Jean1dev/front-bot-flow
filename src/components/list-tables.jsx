@@ -16,11 +16,74 @@ import TableRow from '@mui/material/TableRow';
 import { Scrollbar } from 'src/components/scrollbar';
 import { Trash01 } from '@untitled-ui/icons-react';
 
+export const SimpleListTable = (props) => {
+    const { items = [], cellName } = props
+    return (
+        <Box sx={{ position: 'relative' }}>
+
+            <Scrollbar>
+                <Table sx={{ minWidth: 700 }}>
+                    <TableHead>
+                        <TableRow>
+                            {
+                                cellName.map((name, index) => (<TableCell key={index}>{name}</TableCell>))
+                            }
+                            <TableCell align="right">
+                                Actions
+                            </TableCell>
+                        </TableRow>
+                    </TableHead>
+                    <TableBody>
+                        {items.map((item) => {
+
+                            return (
+                                <TableRow
+                                    hover
+                                    key={item.id}
+                                >
+                                    {
+                                        cellName.map((name, index) => (
+                                            <TableCell key={index}>
+                                                {item[name]}
+                                            </TableCell>
+                                        ))
+                                    }
+
+                                    {/* <TableCell align="right">
+                                        {
+                                            editAction && (
+                                                <IconButton
+                                                    onClick={() => editAction(item)}
+                                                >
+                                                    <SvgIcon>
+                                                        <Edit02Icon />
+                                                    </SvgIcon>
+                                                </IconButton>
+                                            )
+                                        }
+                                        <IconButton
+                                            onClick={() => onDeleteClick(item.id)}
+                                        >
+                                            <SvgIcon>
+                                                <Trash01 />
+                                            </SvgIcon>
+                                        </IconButton>
+                                    </TableCell> */}
+                                </TableRow>
+                            );
+                        })}
+                    </TableBody>
+                </Table>
+            </Scrollbar>
+        </Box>
+    );
+}
+
 export const DefaultListTable = (props) => {
     const {
         count = 0, items = [], onDeselectAll, onDeselectOne, onPageChange = () => {
         }, onRowsPerPageChange, onSelectAll, onSelectOne, page = 0, rowsPerPage = 0, selected = [],
-        cellName = [], editAction = null, onDeleteClick = () => {}
+        cellName = [], editAction = null, onDeleteClick = () => { }
     } = props;
 
     const selectedSome = (selected.length > 0) && (selected.length < items.length);

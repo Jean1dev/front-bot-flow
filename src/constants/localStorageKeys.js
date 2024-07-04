@@ -1,0 +1,1 @@
+export const CONFIGURACOES_LOCAL_STORAGE = 'configuracoes1-bot-flow'
