@@ -15,6 +15,7 @@ const BotFlowPage = lazy(() => import('src/pages/bot-flow'))
 const TelemetriaPge = lazy(() => import('src/pages/telemetria'))
 
 const TypeBotPage = lazy(() => import('src/pages/typebots'))
+const TypeBotViewerPage = lazy(() => import('src/pages/typebots/viewer'))
 
 export const routes = [
     {
@@ -81,12 +82,16 @@ export const routes = [
                 ]
             },
             {
-                path: paths.typebot.list,
+                path: paths.typebot.index,
                 children: [
                     {
                         index: true,
                         element: <TypeBotPage />
-                    }
+                    },
+                    {
+                        path: paths.typebot.viewer,
+                        element: <TypeBotViewerPage />
+                    },
                 ]
             },
         ]

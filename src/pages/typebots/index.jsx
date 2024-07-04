@@ -19,12 +19,23 @@ import typebotApi from "src/api/typebot/typebot-api";
 import { useLocalStorage } from "src/hooks/use-local-storage";
 import { configuracaoApi } from "src/api/configuracoes";
 import { CONFIGURACOES_LOCAL_STORAGE } from "src/constants/localStorageKeys";
+import { useNavigate } from "react-router-dom";
+
+function mapReduce(typeBots) {
+    return typeBots.map(item => ({
+        id: item.id,
+        name: item.name,
+        icon: item.icon,
+        published: item.publishedTypebotId ? 'PUBLICADO' : 'NAO PUBLICADO'
+    }))
+}
 
 const MeusTypeBotsPage = () => {
     const [token, setToken] = useState('')
     const [workspaceId, setWorkspaceId] = useState('')
     const [items, setItems] = useState([])
     const [configuracoes, setConfig] = useLocalStorage(CONFIGURACOES_LOCAL_STORAGE, null)
+    const navigate = useNavigate()
 
     const buscarTypeBots = useCallback((var_token, var_workspace) => {
         toast.loading('Carregando os typebots', { duration: 1000 })
@@ -32,7 +43,7 @@ const MeusTypeBotsPage = () => {
         const workspaceIdBusca = var_workspace || workspaceId
 
         typebotApi.meusTypeBots(workspaceIdBusca, tokenBusca)
-            .then(response => setItems(response.data.typebots))
+            .then(response => setItems(mapReduce(response.data.typebots)))
             .catch(() => toast.error('Erro ao carregar os typebots'))
     }, [token, workspaceId])
 
@@ -58,6 +69,15 @@ const MeusTypeBotsPage = () => {
         configuracaoApi.salvarTypeBotKeys(token, workspaceId)
         buscarTypeBots()
     }, [buscarTypeBots, configuracoes, token, workspaceId])
+
+    const onEditClick = useCallback((item) => {
+        if (item.published === 'PUBLICADO') {
+            navigate(`viewer`, { replace: true, state: item })
+            return
+        }
+        
+        alert('Apenas typebots publicados podem ser editados')
+    }, [navigate])
 
     const docs = (
         <>
@@ -182,8 +202,9 @@ const MeusTypeBotsPage = () => {
                         <Card>
 
                             <SimpleListTable
-                                cellName={['id', 'icon', 'name']}
+                                cellName={['id', 'icon', 'name', 'published']}
                                 items={items}
+                                onEditClick={onEditClick}
                             />
                         </Card>
                     </Stack>

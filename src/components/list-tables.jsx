@@ -15,9 +15,10 @@ import TableRow from '@mui/material/TableRow';
 
 import { Scrollbar } from 'src/components/scrollbar';
 import { Trash01 } from '@untitled-ui/icons-react';
+import { ViewCarouselSharp } from '@mui/icons-material';
 
 export const SimpleListTable = (props) => {
-    const { items = [], cellName } = props
+    const { items = [], cellName, onEditClick = () => { } } = props
     return (
         <Box sx={{ position: 'relative' }}>
 
@@ -49,26 +50,17 @@ export const SimpleListTable = (props) => {
                                         ))
                                     }
 
-                                    {/* <TableCell align="right">
+                                    <TableCell align="right">
                                         {
-                                            editAction && (
-                                                <IconButton
-                                                    onClick={() => editAction(item)}
-                                                >
-                                                    <SvgIcon>
-                                                        <Edit02Icon />
-                                                    </SvgIcon>
-                                                </IconButton>
-                                            )
+                                            <IconButton
+                                                onClick={() => onEditClick(item)}
+                                            >
+                                                <SvgIcon>
+                                                    <ViewCarouselSharp />
+                                                </SvgIcon>
+                                            </IconButton>
                                         }
-                                        <IconButton
-                                            onClick={() => onDeleteClick(item.id)}
-                                        >
-                                            <SvgIcon>
-                                                <Trash01 />
-                                            </SvgIcon>
-                                        </IconButton>
-                                    </TableCell> */}
+                                    </TableCell>
                                 </TableRow>
                             );
                         })}

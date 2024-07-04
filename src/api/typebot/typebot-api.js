@@ -9,6 +9,13 @@ class TypeBotApi {
             }
         })
     }
+    getFullTypeBot(id, token) {
+        return axios.get(`${BaseUrlTypebotApi}/api/v1/typebots/${id}`, {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        })
+    }
 }
 
 export default new TypeBotApi();
