@@ -5,7 +5,8 @@ import {
     HomeSmile,
     Phone,
     MarkerPin01,
-    Telescope
+    Telescope,
+    FaceIdSquare
 } from "@untitled-ui/icons-react"
 import { AdminPanelSettings } from "@mui/icons-material"
 
@@ -70,6 +71,22 @@ export const useSections = () => {
                                 title: 'Logs',
                                 path: paths.telemetria.index
                             },
+                        ]
+                    },
+                    {
+                        title: 'Meus TypeBots',
+                        path: paths.typebot.index,
+                        icon: (
+                            <SvgIcon fontSize="small">
+                                <FaceIdSquare />
+                            </SvgIcon>
+                        ),
+                        items: [
+                            {
+                                title: 'Listagem',
+                                path: paths.typebot.list
+                            },
+                            
                         ]
                     },
                     {
