@@ -1,3 +1,5 @@
+export const BaseUrlTypeBotProxy = 'https://typebot-proxy.azurewebsites.net/api/proxy?'
+
 export const BaseUrlTypebotApi = 'http://161.35.238.7:8080'
 export const BaseUrlTypeBotViewer = 'http://161.35.238.7:8081'
 
