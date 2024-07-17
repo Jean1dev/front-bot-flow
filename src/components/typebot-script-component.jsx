@@ -18,7 +18,7 @@ const TypebotComponent = ({ typebotId }) => {
   }, [typebotId]);
 
   return (
-    <typebot-standard style={{ width: '100%', height: '600px' }}></typebot-standard>
+    <typebot-standard style={{ width: '100%', height: '700px' }}></typebot-standard>
   );
 }
 
