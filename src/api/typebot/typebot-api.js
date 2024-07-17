@@ -1,20 +1,26 @@
 import axios from "axios";
-import { BaseUrlTypebotApi } from "../../constants";
+import { BaseUrlTypebotApi, BaseUrlTypeBotProxy } from "../../constants";
+
+function proxy(method, url, token) {
+    return axios.post(BaseUrlTypeBotProxy, {
+        method,
+        api: url
+    }, {
+        headers: {
+            Authorization: `Bearer ${token}`
+        }
+    })
+}
 
 class TypeBotApi {
     meusTypeBots(workspaceId, token) {
-        return axios.get(`${BaseUrlTypebotApi}/api/v1/typebots?workspaceId=${workspaceId}`, {
-            headers: {
-                Authorization: `Bearer ${token}`
-            }
-        })
+        return proxy('GET', `${BaseUrlTypebotApi}/api/v1/typebots?workspaceId=${workspaceId}`, token)
     }
     getFullTypeBot(id, token) {
-        return axios.get(`${BaseUrlTypebotApi}/api/v1/typebots/${id}`, {
-            headers: {
-                Authorization: `Bearer ${token}`
-            }
-        })
+        return proxy('GET', `${BaseUrlTypebotApi}/api/v1/typebots/${id}`, token)
+    }
+    getAnalytics(id, token) {
+        return proxy('GET', `${BaseUrlTypebotApi}/api/v1/typebots/${id}/analytics/stats`, token)
     }
 }
 

@@ -23,6 +23,12 @@ class NumerosAPiMock {
     getNumerosValidado() {
         return retornaComAtraso(numerosSimplificados)
     }
+    quantidadeVinculosTypeBot(..._) {
+        return retornaComAtraso({ quantidade: 2 })
+    }
+    vincularTypeBot(..._) {
+        return retornaComAtraso({})
+    }
 }
 
 class NumerosApi {
@@ -46,6 +52,12 @@ class NumerosApi {
     }
     atualizarNumero(data) {
         return httpApiGerenciamentoDados.put(`/numeros/atualizar/${data.id}`, data);
+    }
+    quantidadeVinculosTypeBot({ name, apiHost }) {
+        return httpApiGerenciamentoDados.get(`/api/v1/numeros-typebots/quantidade-vinculos`, { params: { name, apiHost } });
+    }
+    vincularTypeBot(data) {
+        return httpApiGerenciamentoDados.post(`/api/v1/numeros-typebots/vincular`, data);
     }
 }
 
