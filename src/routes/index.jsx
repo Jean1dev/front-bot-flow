@@ -3,6 +3,7 @@ import { Layout } from "../dashboard/layout";
 import { Outlet } from "react-router-dom";
 import { paths } from "../paths";
 
+const HomePage = lazy(() => import('src/pages/home'))
 const CriarNovaCampanhaPage = lazy(() => import('src/pages/campanhas'))
 const CampanhasListPage = lazy(() => import('src/pages/campanhas/listagem'))
 
@@ -30,7 +31,7 @@ export const routes = [
         children: [
             {
                 index: true,
-                element: <h1>wip</h1>
+                element: <HomePage/>
             },
             {
                 path: paths.campanhas.index,

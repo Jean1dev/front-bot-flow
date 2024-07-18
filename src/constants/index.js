@@ -1,7 +1,7 @@
 export const BaseUrlTypeBotProxy = 'https://typebot-proxy.azurewebsites.net/api/proxy?'
 
-export const BaseUrlTypebotApi = 'http://161.35.238.7:8080'
-export const BaseUrlTypeBotViewer = 'http://161.35.238.7:8081'
+export const BaseUrlTypebotApi = 'https://typebot.app-services-backend.xyz/'
+export const BaseUrlTypeBotViewer = 'https://typebot.app-services-backend.xyz/viewer'
 
 export const BaseUrlStorageService = 'https://storage-manager-svc.herokuapp.com'
 

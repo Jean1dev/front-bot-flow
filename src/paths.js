@@ -2,7 +2,7 @@ export const paths = {
     index: '/',
     typebot: {
         index: 'typebots',
-        manager: 'http://161.35.238.7:8080/',
+        manager: 'https://typebot.app-services-backend.xyz/',
         list: '/typebots',
         viewer: '/typebots/viewer',
     },

@@ -11,8 +11,8 @@ class ConfiguracaoApiMock {
     }
     getApiKeys() {
         return retornaComAtraso({
-            typebot_token: 'JeugZQgfKYHxBIPvc70AFLPx',
-            typebot_workspaceId: 'cly7ikdxa0001y2nsmp4aj5ii'
+            typebot_token: 'q57sYMOq6sDBQ7Cf9h7LgAad',
+            typebot_workspaceId: 'clyqfa0nt0001ygen4k7shbj1'
         })
     }
 }

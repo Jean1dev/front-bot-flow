@@ -16,7 +16,7 @@ export const useSections = () => {
             {
                 items: [
                     {
-                        title: 'Dashboard',
+                        title: 'Home',
                         path: paths.index,
                         icon: (
                             <SvgIcon fontSize="small">

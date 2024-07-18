@@ -11,7 +11,8 @@ import {
     Card,
     TextField,
     Divider,
-    CardHeader
+    CardHeader,
+    IconButton
 } from '@mui/material';
 import { SimpleListTable } from 'src/components/list-tables';
 import toast from "react-hot-toast";
@@ -20,6 +21,8 @@ import { useLocalStorage } from "src/hooks/use-local-storage";
 import { configuracaoApi } from "src/api/configuracoes";
 import { CONFIGURACOES_LOCAL_STORAGE } from "src/constants/localStorageKeys";
 import { useNavigate } from "react-router-dom";
+import VisibilityIcon from '@mui/icons-material/Visibility';
+import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 
 function mapReduce(typeBots) {
     return typeBots.map(item => ({
@@ -31,6 +34,10 @@ function mapReduce(typeBots) {
 }
 
 const MeusTypeBotsPage = () => {
+    const [visibilityButtons, setVisibilityButtons] = useState({
+        token: true,
+        workspaceId: true
+    })
     const [token, setToken] = useState('')
     const [workspaceId, setWorkspaceId] = useState('')
     const [items, setItems] = useState([])
@@ -75,7 +82,7 @@ const MeusTypeBotsPage = () => {
             navigate(`viewer`, { replace: true, state: item })
             return
         }
-        
+
         alert('Apenas typebots publicados podem ser editados')
     }, [navigate])
 
@@ -122,10 +129,21 @@ const MeusTypeBotsPage = () => {
                     <TextField
                         label="token"
                         name="token"
-                        type="password"
+                        type={visibilityButtons.token ? "password" : "text"}
                         value={token}
                         onChange={(e) => setToken(e.target.value)}
                     />
+
+                    {
+                        visibilityButtons.token
+                            ? <IconButton onClick={() => setVisibilityButtons({ ...visibilityButtons, token: false })}>
+                                <VisibilityIcon />
+                            </IconButton>
+                            : <IconButton onClick={() => setVisibilityButtons({ ...visibilityButtons, token: true })}>
+                                <VisibilityOffIcon />
+                            </IconButton>
+                    }
+
                 </Grid>
                 <Grid
                     xs={12}
@@ -135,10 +153,19 @@ const MeusTypeBotsPage = () => {
                     <TextField
                         label="workspaceId"
                         name="workspaceId"
-                        type="password"
+                        type={visibilityButtons.workspaceId ? "password" : "text"}
                         value={workspaceId}
                         onChange={(e) => setWorkspaceId(e.target.value)}
                     />
+                    {
+                        visibilityButtons.workspaceId
+                            ? <IconButton onClick={() => setVisibilityButtons({ ...visibilityButtons, workspaceId: false })}>
+                                <VisibilityIcon />
+                            </IconButton>
+                            : <IconButton onClick={() => setVisibilityButtons({ ...visibilityButtons, workspaceId: true })}>
+                                <VisibilityOffIcon />
+                            </IconButton>
+                    }
                 </Grid>
             </Grid>
             <Divider sx={{ pt: 2 }} />
