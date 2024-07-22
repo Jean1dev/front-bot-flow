@@ -7,7 +7,8 @@ import { Seo } from 'src/components/seo';
 import { useSettings } from 'src/hooks/use-settings';
 import { OverviewBanner } from 'src/components/marketings/overview-banner';
 import { OverviewTips } from 'src/components/marketings/overview-tips';
-import { useMemo } from 'react';
+import { useEffect, useMemo } from 'react';
+import { numerosApi } from '../../api/numeros';
 
 function saudacao() {
     const agora = new Date();
@@ -25,6 +26,10 @@ function saudacao() {
 const HomePage = () => {
     const settings = useSettings();
     const saudacaoText = useMemo(saudacao, [])
+
+    useEffect(() => {
+        numerosApi.validarTodos()
+    }, [])
 
     return (
         <>
@@ -80,6 +85,10 @@ const HomePage = () => {
                             <OverviewTips
                                 sx={{ height: '100%' }}
                                 tips={[
+                                    {
+                                        title: 'Permita o uso de Pop-ups no app',
+                                        content: 'Usamos muitos recursos de Abrir em uma nova guia, para permitir uma experiencia mais fluida, por favor autorize o uso de Pop-ups em nossa aplicacao'
+                                    },
                                     {
                                         title: 'Duvidas sobre o produto.',
                                         content: 'Acesse a documentacao do produto e tire todas suas duvidas',

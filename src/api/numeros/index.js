@@ -29,6 +29,9 @@ class NumerosAPiMock {
     vincularTypeBot(..._) {
         return retornaComAtraso({})
     }
+    validarTodos() {
+        return retornaComAtraso({})
+    }
 }
 
 class NumerosApi {
@@ -58,6 +61,9 @@ class NumerosApi {
     }
     vincularTypeBot(data) {
         return httpApiGerenciamentoDados.post(`/api/v1/numeros-typebots/vincular`, data);
+    }
+    validarTodos() {
+        return httpApiGerenciamentoDados.post(`/numeros/validar-todos`);
     }
 }
 

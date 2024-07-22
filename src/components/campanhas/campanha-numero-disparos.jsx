@@ -22,42 +22,75 @@ export const CampanhaNumeroDisparos = (props) => {
     const [files, setFiles] = useState([]);
 
     const handleDrop = useCallback((newFiles) => {
-        Papa.parse(newFiles[0], {
-            header: true,
-            skipEmptyLines: true,
-            complete: function (results) {
-                if (results.errors && results.errors.length > 0) {
-                    const message = results.errors.map((error) => error.message).join('\n');
-                    setAlert({
-                        type: 'error',
-                        text: message
-                    })
-                    return
-                }
+        const file = newFiles[0];
+        const extensao = file.name.split('.').pop();
 
-                const rowsArray = [];
-                const valuesArray = [];
-
-                results.data.map((d) => {
-                    rowsArray.push(Object.keys(d));
-                    valuesArray.push(Object.values(d));
+        if (extensao.toLowerCase() === 'txt') {
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                const content = e.target.result;
+                const lines = content.split('\n');
+                setAlert({
+                    type: 'success',
+                    text: `${lines.length} numeros adicionados`
+                })
+                setTags((prevState) => {
+                    return [...prevState, ...lines];
                 });
-
 
                 setFiles((prevFiles) => {
                     return [...prevFiles, ...newFiles];
                 });
+            };
+            reader.readAsText(file);
+            return
+        }
 
-                setTags((prevState) => {
-                    return [...prevState, ...valuesArray.map(arrayInterno => arrayInterno[1])];
-                })
+        if (extensao.toLowerCase === 'csv') {
+            Papa.parse(newFiles[0], {
+                header: true,
+                skipEmptyLines: true,
+                complete: function (results) {
+                    if (results.errors && results.errors.length > 0) {
+                        const message = results.errors.map((error) => error.message).join('\n');
+                        setAlert({
+                            type: 'error',
+                            text: message
+                        })
+                        return
+                    }
+    
+                    const rowsArray = [];
+                    const valuesArray = [];
+    
+                    results.data.map((d) => {
+                        rowsArray.push(Object.keys(d));
+                        valuesArray.push(Object.values(d));
+                    });
+    
+    
+                    setFiles((prevFiles) => {
+                        return [...prevFiles, ...newFiles];
+                    });
+    
+                    setTags((prevState) => {
+                        return [...prevState, ...valuesArray.map(arrayInterno => arrayInterno[1])];
+                    })
+    
+                    setAlert({
+                        type: 'success',
+                        text: `${valuesArray.length} numeros adicionados`
+                    })
+                },
+            });
+            return
+        }
+        
+        setAlert({
+            type: 'error',
+            text: `Tipo de arquivo nao suportado`
+        })
 
-                setAlert({
-                    type: 'success',
-                    text: `${valuesArray.length} numeros adicionados`
-                })
-            },
-        });
     }, []);
 
     const handleRemove = useCallback((file) => {
@@ -145,7 +178,13 @@ export const CampanhaNumeroDisparos = (props) => {
                     value={tag}
                 />
                 <Typography variant="h6">
-                    Upload de arquivo csv. Formato nome,numero
+                    Upload de arquivo CSV e Txt
+                </Typography>
+                <Typography variant="body1">
+                    Formatos e modelos acessa a documentao pelo
+                </Typography>
+                <Typography variant="body1">
+                    <a href="https://jeanlucafpconsultoria.mintlify.app/upload-files" target="_blank">Link</a>
                 </Typography>
                 <FileDropzone
                     accept={{ '*/*': [] }}
