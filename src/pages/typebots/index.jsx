@@ -41,7 +41,7 @@ const MeusTypeBotsPage = () => {
     const [token, setToken] = useState('')
     const [workspaceId, setWorkspaceId] = useState('')
     const [items, setItems] = useState([])
-    const [configuracoes, setConfig] = useLocalStorage(CONFIGURACOES_LOCAL_STORAGE, null)
+    const [configuracoes, setConfig, clearValue] = useLocalStorage(CONFIGURACOES_LOCAL_STORAGE, null)
     const navigate = useNavigate()
 
     const buscarTypeBots = useCallback((var_token, var_workspace) => {
@@ -60,6 +60,11 @@ const MeusTypeBotsPage = () => {
                 setWorkspaceId(response.data.typebot_workspaceId)
                 setToken(response.data.typebot_token)
                 buscarTypeBots(response.data.typebot_token, response.data.typebot_workspaceId)
+            }).catch(() => {
+                if (confirm('Erro ao carregar as chaves da api, deseja reiniciar sua sessao')) {
+                    clearValue()
+                    window.location.reload()
+                }
             })
     }, [])
 
