@@ -61,9 +61,8 @@ const MeusTypeBotsPage = () => {
                 setToken(response.data.typebot_token)
                 buscarTypeBots(response.data.typebot_token, response.data.typebot_workspaceId)
             }).catch(() => {
-                if (confirm('Erro ao carregar as chaves da api, deseja reiniciar sua sessao')) {
+                if (confirm('Novo acesso detectado !!! suas chaves nao funcionam mais, adicione eles novamente')) {
                     clearValue()
-                    window.location.reload()
                 }
             })
     }, [])
