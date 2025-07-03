@@ -2,7 +2,6 @@ export const paths = {
     index: '/',
     typebot: {
         index: 'typebots',
-        manager: 'https://typebot.app-services-backend.xyz/',
         list: '/typebots',
         viewer: '/typebots/viewer',
     },
@@ -15,6 +14,10 @@ export const paths = {
         criar: '/campanhas/nova',
         list: '/campanhas'
     },
+    inscricoes: {
+        index: 'inscricoes',
+        list: '/inscricoes'
+    },
     playground: {
         index: 'playground',
     },
@@ -23,5 +26,6 @@ export const paths = {
     },
     telemetria: {
         index: 'telemetria',
-    }
+    },
+    plataforma: 'https://arbitragem-crypto.cloud/'
 }

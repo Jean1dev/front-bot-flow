@@ -6,7 +6,8 @@ import {
     Phone,
     MarkerPin01,
     Telescope,
-    FaceIdSquare
+    FaceIdSquare,
+    Users01
 } from "@untitled-ui/icons-react"
 import { AdminPanelSettings } from "@mui/icons-material"
 
@@ -55,6 +56,21 @@ export const useSections = () => {
                             {
                                 title: 'Consultar Numeros',
                                 path: paths.numeros.list
+                            },
+                        ]
+                    },
+                    {
+                        title: 'Inscrições',
+                        path: paths.inscricoes.list,
+                        icon: (
+                            <SvgIcon fontSize="small">
+                                <Users01 />
+                            </SvgIcon>
+                        ),
+                        items: [
+                            {
+                                title: 'Gerenciar Inscrições',
+                                path: paths.inscricoes.list
                             },
                         ]
                     },
