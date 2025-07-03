@@ -5,6 +5,8 @@ export const BaseUrlTypeBotViewer = 'https://typebot.app-services-backend.xyz/vi
 
 export const BaseUrlStorageService = 'https://storage-manager-svc.herokuapp.com'
 
+export const BaseUrlCommunicationService = 'https://communication-service-4f4f57e0a956.herokuapp.com'
+
 export const BaseUrlApiEngine = import.meta.env.VITE_BASE_URL_API_ENGINE;
 
 export const BaseUrlApiGerenciamentoDados = import.meta.env.VITE_BASE_URL_API_GERENCIAMENTO_DADOS;

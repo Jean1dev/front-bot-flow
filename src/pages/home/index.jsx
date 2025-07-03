@@ -7,8 +7,7 @@ import { Seo } from 'src/components/seo';
 import { useSettings } from 'src/hooks/use-settings';
 import { OverviewBanner } from 'src/components/marketings/overview-banner';
 import { OverviewTips } from 'src/components/marketings/overview-tips';
-import { useEffect, useMemo } from 'react';
-import { numerosApi } from '../../api/numeros';
+import { useMemo } from 'react';
 
 function saudacao() {
     const agora = new Date();
@@ -26,10 +25,6 @@ function saudacao() {
 const HomePage = () => {
     const settings = useSettings();
     const saudacaoText = useMemo(saudacao, [])
-
-    useEffect(() => {
-        numerosApi.validarTodos()
-    }, [])
 
     return (
         <>

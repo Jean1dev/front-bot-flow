@@ -1,5 +1,10 @@
 import axios from "axios"
-import { BaseUrlApiEngine, BaseUrlApiGerenciamentoDados, BaseUrlStorageService } from "../constants"
+import { 
+    BaseUrlApiEngine, 
+    BaseUrlApiGerenciamentoDados, 
+    BaseUrlCommunicationService, 
+    BaseUrlStorageService 
+} from "../constants"
 import { toastError } from "../utils/toasts-utils"
 
 const defaultSuccess = (response) => {
@@ -50,6 +55,16 @@ export function retornaComAtraso(body, headers = {}) {
             })
         }, 1000)
     })
+}
+
+export async function sendSMS(phone, message) {
+    const URL_COMMUNICATION_SERVICE = BaseUrlCommunicationService
+    const body = {
+        desc: message,
+        recipients: [phone],
+    }
+    const response = await axios.post(`${URL_COMMUNICATION_SERVICE}/notificacao/sms`, body)
+    return response.data
 }
 
 export async function uploadResource(resourceFile) {
