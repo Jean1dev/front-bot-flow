@@ -6,7 +6,8 @@ import {
     DialogActions,
     Button,
     TextField,
-    Stack} from '@mui/material';
+    Stack
+} from '@mui/material';
 import { inscricoesApi } from '../../api/inscricoes';
 import toast from 'react-hot-toast';
 import { sendSMS } from '../../api/api-defaults';
@@ -34,7 +35,7 @@ export const CriarInscricaoModal = ({ open, onClose, onSuccess }) => {
 
     const validateForm = () => {
         const newErrors = {};
-        
+
         if (!formData.email) {
             newErrors.email = 'Email é obrigatório';
         } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
@@ -51,15 +52,13 @@ export const CriarInscricaoModal = ({ open, onClose, onSuccess }) => {
         }
 
         setLoading(true);
-        
+
         try {
             await inscricoesApi.criarInscricao({
-                data: {
-                    email: formData.email,
-                    periodoPlano: "MENSAL"
-                }
+                email: formData.email,
+                periodoPlano: "MENSAL"
             });
-            
+
             if (formData.telefone) {
                 await sendSMS(formData.telefone, "Assinatura ativa no software de arbitragem");
             }
@@ -82,8 +81,8 @@ export const CriarInscricaoModal = ({ open, onClose, onSuccess }) => {
     };
 
     return (
-        <Dialog 
-            open={open} 
+        <Dialog
+            open={open}
             onClose={handleClose}
             maxWidth="sm"
             fullWidth
@@ -114,13 +113,13 @@ export const CriarInscricaoModal = ({ open, onClose, onSuccess }) => {
                 </Stack>
             </DialogContent>
             <DialogActions>
-                <Button 
+                <Button
                     onClick={handleClose}
                     disabled={loading}
                 >
                     Cancelar
                 </Button>
-                <Button 
+                <Button
                     onClick={handleSubmit}
                     variant="contained"
                     disabled={loading}

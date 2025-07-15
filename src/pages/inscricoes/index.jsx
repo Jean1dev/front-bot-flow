@@ -19,8 +19,8 @@ import {
 import { Scrollbar } from 'src/components/scrollbar';
 import { SeverityPill } from 'src/components/severity-pill';
 import { Plus } from '@untitled-ui/icons-react';
-import { CriarInscricaoModal } from '../../components/inscricoes/criar-inscricao-modal';
-import { inscricoesApi } from '../../api/inscricoes';
+import { CriarInscricaoModal } from 'src/components/inscricoes/criar-inscricao-modal';
+import { inscricoesApi } from 'src/api/inscricoes';
 
 const InscricoesListView = () => {
     const [items, setItems] = useState(null);
@@ -28,6 +28,7 @@ const InscricoesListView = () => {
     const [limit, setLimit] = useState(10);
     const [page, setPage] = useState(0);
     const [modalOpen, setModalOpen] = useState(false);
+    const [filter, setFilter] = useState('Todos');
 
     useEffect(() => {
         inscricoesApi.listInscricoes({
@@ -84,9 +85,21 @@ const InscricoesListView = () => {
         return date.toLocaleDateString('pt-BR');
     };
 
+    const statusFromDate = (vigenteAte) => {
+        const hoje = new Date();
+        const dataVigencia = new Date(vigenteAte);
+        const diffTime = dataVigencia.getTime() - hoje.getTime();
+        const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+        if (diffDays < 0) return 'Expirado';
+        if (diffDays <= 5) return 'Expirando';
+        return 'Ativo';
+    };
+
     if (loading) {
         return <LinearProgress />
     }
+
+    const filteredItems = items ? (filter === 'Todos' ? items : items.filter(item => statusFromDate(item.vigenteAte) === filter)) : [];
 
     return (
         <>
@@ -99,37 +112,43 @@ const InscricoesListView = () => {
             >
                 <Container maxWidth="xl">
                     <Stack spacing={4}>
-                                            <Stack
-                        direction="row"
-                        justifyContent="space-between"
-                        spacing={4}
-                    >
-                        <Stack spacing={1}>
-                            <Typography variant="h4">
-                                Inscrições
-                            </Typography>
-                            <Typography variant="body2" color="text.secondary">
-                                Gerencie as inscrições e acompanhe o status dos planos
-                            </Typography>
-                        </Stack>
                         <Stack
-                            alignItems="center"
                             direction="row"
-                            spacing={3}
+                            justifyContent="space-between"
+                            spacing={4}
                         >
-                            <Button
-                                startIcon={(
-                                    <SvgIcon>
-                                        <Plus />
-                                    </SvgIcon>
-                                )}
-                                variant="contained"
-                                onClick={() => setModalOpen(true)}
+                            <Stack spacing={1}>
+                                <Typography variant="h4">
+                                    Inscrições
+                                </Typography>
+                                <Typography variant="body2" color="text.secondary">
+                                    Gerencie as inscrições e acompanhe o status dos planos
+                                </Typography>
+                                <Stack direction="row" spacing={1} mt={2}>
+                                    <SeverityPill color={filter === 'Todos' ? 'primary' : 'primary'} onClick={() => setFilter('Todos')} style={{ cursor: 'pointer' }}>Todos</SeverityPill>
+                                    <SeverityPill color={filter === 'Ativo' ? 'success' : 'primary'} onClick={() => setFilter('Ativo')} style={{ cursor: 'pointer' }}>Ativo</SeverityPill>
+                                    <SeverityPill color={filter === 'Expirando' ? 'warning' : 'primary'} onClick={() => setFilter('Expirando')} style={{ cursor: 'pointer' }}>Expirando</SeverityPill>
+                                    <SeverityPill color={filter === 'Expirado' ? 'error' : 'primary'} onClick={() => setFilter('Expirado')} style={{ cursor: 'pointer' }}>Expirado</SeverityPill>
+                                </Stack>
+                            </Stack>
+                            <Stack
+                                alignItems="center"
+                                direction="row"
+                                spacing={3}
                             >
-                                Nova Inscrição
-                            </Button>
+                                <Button
+                                    startIcon={(
+                                        <SvgIcon>
+                                            <Plus />
+                                        </SvgIcon>
+                                    )}
+                                    variant="contained"
+                                    onClick={() => setModalOpen(true)}
+                                >
+                                    Nova Inscrição
+                                </Button>
+                            </Stack>
                         </Stack>
-                    </Stack>
                         <Card>
                             <Scrollbar>
                                 <Table sx={{ minWidth: 700 }}>
@@ -141,7 +160,7 @@ const InscricoesListView = () => {
                                         </TableRow>
                                     </TableHead>
                                     <TableBody>
-                                        {items && items.map((item, index) => (
+                                        {filteredItems && filteredItems.map((item, index) => (
                                             <TableRow
                                                 hover
                                                 key={index}
@@ -160,10 +179,10 @@ const InscricoesListView = () => {
                                     </TableBody>
                                 </Table>
                             </Scrollbar>
-                            {items && (
+                            {filteredItems && (
                                 <TablePagination
                                     component="div"
-                                    count={items.length}
+                                    count={filteredItems.length}
                                     onPageChange={onPageChange}
                                     onRowsPerPageChange={onRowsPerPageChange}
                                     page={page}

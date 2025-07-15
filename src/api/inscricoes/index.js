@@ -5,7 +5,7 @@ class InscricoesApiMock {
     listInscricoes(_) {
         return retornaComAtraso(planosAtivosList)
     }
-    criarInscricao(requestPayload) {
+    criarInscricao(_) {
         return retornaComAtraso({}, { id: 'mock' })
     }
 }
