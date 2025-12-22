@@ -20,6 +20,8 @@ const TypeBotViewerPage = lazy(() => import('src/pages/typebots/viewer'))
 
 const InscricoesPage = lazy(() => import('src/pages/inscricoes'))
 
+const ConfiguracoesPlanoPage = lazy(() => import('src/pages/configuracoes-plano'))
+
 export const routes = [
     {
         path: '/',
@@ -103,6 +105,15 @@ export const routes = [
                     {
                         index: true,
                         element: <InscricoesPage />
+                    }
+                ]
+            },
+            {
+                path: paths.configuracoesPlano.index,
+                children: [
+                    {
+                        index: true,
+                        element: <ConfiguracoesPlanoPage />
                     }
                 ]
             },
