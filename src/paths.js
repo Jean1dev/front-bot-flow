@@ -18,6 +18,10 @@ export const paths = {
         index: 'inscricoes',
         list: '/inscricoes'
     },
+    configuracoesPlano: {
+        index: 'configuracoes-plano',
+        list: '/configuracoes-plano'
+    },
     playground: {
         index: 'playground',
     },

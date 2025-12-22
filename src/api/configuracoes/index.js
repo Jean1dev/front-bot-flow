@@ -15,6 +15,11 @@ class ConfiguracaoApiMock {
             typebot_workspaceId: 'clyqfa0nt0001ygen4k7shbj1'
         })
     }
+    getTenant() {
+        return retornaComAtraso({
+            tenantId: 'e8iow0-2'
+        })
+    }
 }
 
 class ConfiguracaoApi {
@@ -29,6 +34,9 @@ class ConfiguracaoApi {
             typebot_token: token,
             typebot_workspaceId: workspace
         })
+    }
+    getTenant() {
+        return httpApiGerenciamentoDados.get('usuario/tenant')
     }
 }
 
