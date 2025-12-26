@@ -22,6 +22,10 @@ export const paths = {
         index: 'configuracoes-plano',
         list: '/configuracoes-plano'
     },
+    configuracoesUsuario: {
+        index: 'configuracoes-usuario',
+        list: '/configuracoes-usuario'
+    },
     playground: {
         index: 'playground',
     },
