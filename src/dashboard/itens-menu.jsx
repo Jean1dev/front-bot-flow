@@ -37,13 +37,22 @@ export const useSections = () => {
                         ]
                     },
                     {
-                        title: 'Configurações de Plano',
-                        path: paths.configuracoesPlano.list,
+                        title: 'Configurações',
                         icon: (
                             <SvgIcon fontSize="small">
                                 <Settings04 />
                             </SvgIcon>
-                        )
+                        ),
+                        items: [
+                            {
+                                title: 'Configurações de Plano',
+                                path: paths.configuracoesPlano.list
+                            },
+                            {
+                                title: 'Configurações do Usuário',
+                                path: paths.configuracoesUsuario.list
+                            },
+                        ]
                     },
                 ]
             }
