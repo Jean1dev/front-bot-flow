@@ -34,6 +34,10 @@ export const useSections = () => {
                                 title: 'Gerenciar Inscrições',
                                 path: paths.inscricoes.list
                             },
+                            {
+                                title: 'Assinaturas Ativas',
+                                path: paths.assinaturasAtivas.list
+                            },
                         ]
                     },
                     {

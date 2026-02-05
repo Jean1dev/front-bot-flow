@@ -26,6 +26,10 @@ export const paths = {
         index: 'configuracoes-usuario',
         list: '/configuracoes-usuario'
     },
+    assinaturasAtivas: {
+        index: 'assinaturas-ativas',
+        list: '/assinaturas-ativas'
+    },
     playground: {
         index: 'playground',
     },
