@@ -22,6 +22,7 @@ const InscricoesPage = lazy(() => import('src/pages/inscricoes'))
 
 const ConfiguracoesPlanoPage = lazy(() => import('src/pages/configuracoes-plano'))
 const ConfiguracoesUsuarioPage = lazy(() => import('src/pages/configuracoes-usuario'))
+const AssinaturasAtivasPage = lazy(() => import('src/pages/assinaturas-ativas'))
 
 export const routes = [
     {
@@ -124,6 +125,15 @@ export const routes = [
                     {
                         index: true,
                         element: <ConfiguracoesUsuarioPage />
+                    }
+                ]
+            },
+            {
+                path: paths.assinaturasAtivas.index,
+                children: [
+                    {
+                        index: true,
+                        element: <AssinaturasAtivasPage />
                     }
                 ]
             },
