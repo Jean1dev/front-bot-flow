@@ -222,13 +222,15 @@ currentPage = Math.floor(offset / limit) + 1
 nextOffset = offset + limit   // se hasMore === true
 prevOffset = offset - limit   // se offset > 0`;
 
+const BASE_URL = 'https://sales-notify-gkf4c2akhvgsagdt.canadacentral-01.azurewebsites.net';
+
 const examples = [
-    { label: 'Listar os 50 eventos mais recentes', url: 'GET /v1/events?limit=50' },
-    { label: 'Filtrar falhas de geração', url: 'GET /v1/events?event=ai.workflow.generation_failed' },
-    { label: 'Filtrar por período', url: 'GET /v1/events?from=2026-04-01T00:00:00.000Z&to=2026-04-30T23:59:59.999Z' },
-    { label: 'Usuários no plano free usando OpenAI', url: 'GET /v1/events?planType=free&provider=openai' },
-    { label: 'Segunda página de resultados (100 por página)', url: 'GET /v1/events?limit=100&offset=100' },
-    { label: 'Filtros combinados com paginação', url: 'GET /v1/events?event=ai.workflow.generation_succeeded&platform=win32&planType=premium&limit=25&offset=0' },
+    { label: 'Listar os 50 eventos mais recentes', url: `GET ${BASE_URL}/v1/events?limit=50` },
+    { label: 'Filtrar falhas de geração', url: `GET ${BASE_URL}/v1/events?event=ai.workflow.generation_failed` },
+    { label: 'Filtrar por período', url: `GET ${BASE_URL}/v1/events?from=2026-04-01T00:00:00.000Z&to=2026-04-30T23:59:59.999Z` },
+    { label: 'Usuários no plano free usando OpenAI', url: `GET ${BASE_URL}/v1/events?planType=free&provider=openai` },
+    { label: 'Segunda página de resultados (100 por página)', url: `GET ${BASE_URL}/v1/events?limit=100&offset=100` },
+    { label: 'Filtros combinados com paginação', url: `GET ${BASE_URL}/v1/events?event=ai.workflow.generation_succeeded&platform=win32&planType=premium&limit=25&offset=0` },
 ];
 
 export const EventsApiDocs = () => {
@@ -242,9 +244,15 @@ export const EventsApiDocs = () => {
                             /v1/events
                         </Typography>
                     </Stack>
-                    <Typography variant="body2" color="text.secondary">
+                    <Typography variant="body2" color="text.secondary" sx={{ mb: 1 }}>
                         Endpoint para consulta paginada dos eventos de tracking da IA. Todos os filtros são opcionais e combinados com <code>AND</code>.
                     </Typography>
+                    <Stack direction="row" alignItems="center" spacing={1}>
+                        <Typography variant="body2" color="text.secondary" sx={{ fontWeight: 700 }}>Base URL:</Typography>
+                        <Typography variant="body2" sx={{ fontFamily: 'monospace', color: 'primary.main' }}>
+                            https://sales-notify-gkf4c2akhvgsagdt.canadacentral-01.azurewebsites.net
+                        </Typography>
+                    </Stack>
                 </CardContent>
             </Card>
 
