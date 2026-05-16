@@ -1,10 +1,11 @@
 import { useMemo } from "react"
 import { paths } from "../paths"
 import { SvgIcon } from "@mui/material"
-import { 
+import {
     HomeSmile,
     Users01,
-    Settings04
+    Settings04,
+    BarChartSquare02
 } from "@untitled-ui/icons-react"
 
 export const useSections = () => {
@@ -39,6 +40,15 @@ export const useSections = () => {
                                 path: paths.assinaturasAtivas.list
                             },
                         ]
+                    },
+                    {
+                        title: 'Telemetria',
+                        path: paths.telemetria.index,
+                        icon: (
+                            <SvgIcon fontSize="small">
+                                <BarChartSquare02 />
+                            </SvgIcon>
+                        )
                     },
                     {
                         title: 'Configurações',
