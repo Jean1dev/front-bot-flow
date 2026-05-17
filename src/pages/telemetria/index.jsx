@@ -12,10 +12,12 @@ import { useState, useCallback } from 'react';
 import { RealTimeStreaming } from 'src/components/telemtria/real-time-streaming';
 import { ConsultaTelemetria } from 'src/components/telemtria/consulta';
 import { EventsApiDocs } from 'src/components/telemtria/events-api-docs';
+import { ConsultaEventos } from 'src/components/telemtria/consulta-eventos';
 
 const tabs = [
     { label: 'Console', value: 'geral' },
     { label: 'Registros', value: 'registros' },
+    { label: 'Eventos', value: 'eventos' },
     { label: 'Documentação API', value: 'api-docs' },
 ];
 
@@ -67,6 +69,9 @@ const TelemetriaPage = () => {
                     )}
                     {currentTab === 'registros' && (
                         <ConsultaTelemetria/>
+                    )}
+                    {currentTab === 'eventos' && (
+                        <ConsultaEventos/>
                     )}
                     {currentTab === 'api-docs' && (
                         <EventsApiDocs/>
