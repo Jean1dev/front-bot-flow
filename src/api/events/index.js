@@ -46,7 +46,7 @@ class EventsApiMock {
 
 class EventsApi {
     get(params) {
-        return httpEventsApi.get('/v1/events', { params });
+        return httpEventsApi.get('/api/v1/events', { params });
     }
 }
 
