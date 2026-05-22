@@ -99,7 +99,11 @@ const InscricoesListView = () => {
         return <LinearProgress />
     }
 
-    const filteredItems = items ? (filter === 'Todos' ? items : items.filter(item => statusFromDate(item.vigenteAte) === filter)) : [];
+    const filteredItems = items ? (
+        filter === 'Todos' ? items :
+        filter === 'Gratuito' ? items.filter(item => item.gratuito === true) :
+        items.filter(item => statusFromDate(item.vigenteAte) === filter)
+    ) : [];
 
     return (
         <>
@@ -129,6 +133,7 @@ const InscricoesListView = () => {
                                     <SeverityPill color={filter === 'Ativo' ? 'success' : 'primary'} onClick={() => setFilter('Ativo')} style={{ cursor: 'pointer' }}>Ativo</SeverityPill>
                                     <SeverityPill color={filter === 'Expirando' ? 'warning' : 'primary'} onClick={() => setFilter('Expirando')} style={{ cursor: 'pointer' }}>Expirando</SeverityPill>
                                     <SeverityPill color={filter === 'Expirado' ? 'error' : 'primary'} onClick={() => setFilter('Expirado')} style={{ cursor: 'pointer' }}>Expirado</SeverityPill>
+                                    <SeverityPill color={filter === 'Gratuito' ? 'info' : 'primary'} onClick={() => setFilter('Gratuito')} style={{ cursor: 'pointer' }}>Gratuito</SeverityPill>
                                 </Stack>
                             </Stack>
                             <Stack
@@ -157,6 +162,7 @@ const InscricoesListView = () => {
                                             <TableCell>Email</TableCell>
                                             <TableCell>Vigente Até</TableCell>
                                             <TableCell>Status</TableCell>
+                                            <TableCell>Tipo</TableCell>
                                         </TableRow>
                                     </TableHead>
                                     <TableBody>
@@ -173,6 +179,12 @@ const InscricoesListView = () => {
                                                 </TableCell>
                                                 <TableCell>
                                                     {getStatusBadge(item.vigenteAte)}
+                                                </TableCell>
+                                                <TableCell>
+                                                    {item.gratuito
+                                                        ? <SeverityPill color="info">Gratuito</SeverityPill>
+                                                        : <SeverityPill color="secondary">Pago</SeverityPill>
+                                                    }
                                                 </TableCell>
                                             </TableRow>
                                         ))}
