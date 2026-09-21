@@ -30,6 +30,10 @@ export const paths = {
         index: 'assinaturas-ativas',
         list: '/assinaturas-ativas'
     },
+    anomaliasAcesso: {
+        index: 'anomalias-acesso',
+        list: '/anomalias-acesso'
+    },
     playground: {
         index: 'playground',
     },

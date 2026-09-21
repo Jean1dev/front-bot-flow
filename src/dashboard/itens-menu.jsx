@@ -39,6 +39,10 @@ export const useSections = () => {
                                 title: 'Assinaturas Ativas',
                                 path: paths.assinaturasAtivas.list
                             },
+                            {
+                                title: 'Análise de comportamento',
+                                path: paths.anomaliasAcesso.list
+                            },
                         ]
                     },
                     {
