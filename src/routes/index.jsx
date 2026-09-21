@@ -23,6 +23,7 @@ const InscricoesPage = lazy(() => import('src/pages/inscricoes'))
 const ConfiguracoesPlanoPage = lazy(() => import('src/pages/configuracoes-plano'))
 const ConfiguracoesUsuarioPage = lazy(() => import('src/pages/configuracoes-usuario'))
 const AssinaturasAtivasPage = lazy(() => import('src/pages/assinaturas-ativas'))
+const AnomaliasAcessoPage = lazy(() => import('src/pages/anomalias-acesso'))
 
 export const routes = [
     {
@@ -136,6 +137,10 @@ export const routes = [
                         element: <AssinaturasAtivasPage />
                     }
                 ]
+            },
+            {
+                path: paths.anomaliasAcesso.index,
+                children: [{ index: true, element: <AnomaliasAcessoPage /> }]
             },
         ]
     }
